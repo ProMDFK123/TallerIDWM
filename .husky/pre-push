@@ -20,5 +20,3 @@
 #echo 'Husky.Net is awesome!'
 
 echo 'Husky.Net is awesome!'
-dotnet build
-dotnet format
