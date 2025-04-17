@@ -19,6 +19,7 @@ git clone https://github.com/ProMDFK123/TallerIDWM.git
 2. Entra en la carpeta del proyecto:
 ```bash
 cd TallerIDWM/api
+```
 3. Restaura paquetes:
 ```bash
 dotnet restore
