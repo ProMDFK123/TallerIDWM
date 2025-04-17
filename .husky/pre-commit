@@ -19,6 +19,6 @@
 ## or put your custom commands -------------------
 #echo 'Husky.Net is awesome!'
 
-#echo 'Husky.Net is awesome!'
-#dotnet build
-#dotnet format
+echo 'Husky.Net is awesome!'
+dotnet build
+dotnet format api.sln
