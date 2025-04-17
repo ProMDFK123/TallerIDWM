@@ -62,7 +62,7 @@ namespace api.src.Data
                 .RuleFor(u => u.Name, f => f.Name.FirstName())
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
                 .RuleFor(u => u.Password, f => f.Internet.Password())
-                .RuleFor(u => u.PhoneNumber, f => int.Parse(f.Phone.PhoneNumber(), u))
+                .RuleFor(u => u.PhoneNumber, f => int.Parse(f.Phone.PhoneNumber("##########")))
                 .RuleFor(u => u.BirthDate, f => f.Date.Past(30, DateTime.Today.AddYears(-18)).ToString("yyyy-MM-dd"))
                 .RuleFor(u => u.Street, f => f.Address.StreetName())
                 .RuleFor(u => u.HouseNumber, f => f.Random.Int(1, 9999))
