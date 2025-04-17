@@ -13,20 +13,24 @@ Este repositorio corresponde al Taller de la asignatura Introducción al Desarro
 ## 📦 Instalación
 
 1. Clona el repositorio:
-  '''bash
-   git clone https://github.com/ProMDFK123/TallerIDWM.git
+```bash
+git clone https://github.com/ProMDFK123/TallerIDWM.git
+```
 2. Entra en la carpeta del proyecto:
-  '''bash
-   cd TallerIDWM/api
+```bash
+cd TallerIDWM/api
 3. Restaura paquetes:
-   '''bash
-   dotnet restore
+```bash
+dotnet restore
+```
 4. Aplica las migraciones:
-   '''bash
+```bash
    dotnet ef database update
+```
 5. Ejecuta el proyecto:
-   '''bash
+```bash
    dotnet run
+```
 
 ## 🧪 Datos de Prueba
 
