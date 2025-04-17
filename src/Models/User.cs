@@ -8,7 +8,7 @@ namespace api.src.Models
         public required int Id { get; set; }
 
         [Required, EmailAddress]
-        public required int Email { get; set; }
+        public required string Email { get; set; }
 
         [Required]
         [StringLength(20)]
