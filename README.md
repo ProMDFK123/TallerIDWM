@@ -39,7 +39,8 @@ El archivo DbInitializer.cs genera datos falsos al iniciar el proyecto si no hay
 
 ## 📁 Estructura del Proyecto
 
-<pre> ```text TallerIDWM/
+<pre>
+TallerIDWM/
 │
 ├── api/
 │   ├── Controllers/
@@ -48,7 +49,7 @@ El archivo DbInitializer.cs genera datos falsos al iniciar el proyecto si no hay
 │   └── Program.cs
 ├── README.md
 └── launchSettings.json
- ``` </pre>
+</pre>
 
 ## 🧑‍💻 Autores
 
