@@ -7,6 +7,10 @@ namespace api.src.Models
         [Required]
         [Key]
         public required int Id { get; set; }
+        
+        [Required]
+        [Key]
+        public required int Email { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -14,13 +18,21 @@ namespace api.src.Models
 
         [Required]
         [StringLength(100)]
-        public required string Description { get; set; }
+        public required string LastName { get; set; }
 
         [Required]
-        [Range(0, 100000)]
-        public required float Price { get; set; }
+        public required string Password { get; set; }
 
-        public required int StoreId { get; set; }
-        public required Store Store { get; set; }
+        [Required]
+        public required int PhoneNumber { get; set; }
+
+        [Required]
+        public required string BirthDate { get; set; }
+
+        public string? Street {get; set;}
+        public int? HouseNumber {get; set;}
+        public string? City {get; set;}
+        public string? Region {get; set;}
+        public int? ZipCode {get; set;}        
     }
 }
