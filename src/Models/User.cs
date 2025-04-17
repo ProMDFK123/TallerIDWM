@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.src.Models
 {
-    public class Product
+    public class User
     {
         [Required]
         [Key]
