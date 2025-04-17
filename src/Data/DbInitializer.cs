@@ -70,8 +70,8 @@ namespace api.src.Data
                 .RuleFor(u => u.Region, f => f.Address.State())
                 .RuleFor(u => u.ZipCode, f => int.Parse(f.Address.ZipCode("#####")))
                 .Generate(10);
-        context.Users.AddRange(users);
-        context.SaveChanges();
+            context.Users.AddRange(users);
+            context.SaveChanges();
         }
     }
 }
