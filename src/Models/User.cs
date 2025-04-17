@@ -7,7 +7,7 @@ namespace api.src.Models
         [Required]
         [Key]
         public required int Id { get; set; }
-        
+
         [Required]
         [Key]
         public required int Email { get; set; }
@@ -29,10 +29,10 @@ namespace api.src.Models
         [Required]
         public required string BirthDate { get; set; }
 
-        public string? Street {get; set;}
-        public int? HouseNumber {get; set;}
-        public string? City {get; set;}
-        public string? Region {get; set;}
-        public int? ZipCode {get; set;}        
+        public string? Street { get; set; }
+        public int? HouseNumber { get; set; }
+        public string? City { get; set; }
+        public string? Region { get; set; }
+        public int? ZipCode { get; set; }
     }
 }
