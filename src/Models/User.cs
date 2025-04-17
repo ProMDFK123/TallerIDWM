@@ -4,12 +4,10 @@ namespace api.src.Models
 {
     public class User
     {
-        [Required]
         [Key]
         public required int Id { get; set; }
 
-        [Required]
-        [Key]
+        [Required, EmailAddress]
         public required int Email { get; set; }
 
         [Required]
