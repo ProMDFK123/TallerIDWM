@@ -53,5 +53,5 @@ TallerIDWM/
 
 ## 🧑‍💻 Autores
 
-Gabriel López - https://github.com/ProMDFK123
+Gabriel López - https://github.com/ProMDFK123  
 Vicente Ordenes - https://github.com/yakusu123
