@@ -44,8 +44,12 @@ TallerIDWM/
 │
 ├── api/
 │   ├── Controllers/
+│   ├── Services/
+│   ├── Repositories/
 │   ├── Models/
+│   ├── DTOs/
 │   ├── Data/
+│   ├── Interfaces/
 │   └── Program.cs
 ├── README.md
 └── launchSettings.json
