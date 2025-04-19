@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api.src.Models
+namespace Ayudantia.src.models
 {
     public class Product
     {
@@ -17,6 +17,5 @@ namespace api.src.Models
 
         public int Stock { get; set; }
         public required string Brand { get; set; }
-        public required int StoreId { get; set; }
     }
 }
