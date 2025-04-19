@@ -26,11 +26,11 @@ dotnet restore
 ```
 4. Aplica las migraciones:
 ```bash
-   dotnet ef database update
+dotnet ef database update
 ```
 5. Ejecuta el proyecto:
 ```bash
-   dotnet run
+dotnet run
 ```
 
 ## 🧪 Datos de Prueba
