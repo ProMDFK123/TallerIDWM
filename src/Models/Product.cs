@@ -17,6 +17,5 @@ namespace api.src.Models
 
         public int Stock { get; set; }
         public required string Brand { get; set; }
-        public required int StoreId { get; set; }
     }
 }

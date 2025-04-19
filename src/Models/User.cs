@@ -4,33 +4,13 @@ namespace api.src.Models
 {
     public class User
     {
-        [Key]
         public required int Id { get; set; }
-
-        [Required, EmailAddress]
-        public required string Email { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        public required string Name { get; set; }
-
-        [Required]
-        [StringLength(100)]
+        public required string FirstName { get; set; }
         public required string LastName { get; set; }
-
-        [Required]
+        public required string Email { get; set; }
         public required string Password { get; set; }
-
-        [Required]
-        public required int PhoneNumber { get; set; }
-
-        [Required]
-        public required string BirthDate { get; set; }
-
-        public string? Street { get; set; }
-        public int? HouseNumber { get; set; }
-        public string? City { get; set; }
-        public string? Region { get; set; }
-        public int? ZipCode { get; set; }
+        public required string Thelephone { get; set; }
+        public required string birthdate { get; set; }
+        public required string? Address1 { get; set; }
     }
 }
