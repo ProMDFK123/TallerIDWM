@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.src.Data
 {
-    public class ClonedDataContext(DbContextOptions<DataContext> options) : DbContext(options)
+    public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
         public DbSet<Store> Stores { get; set; }
         public DbSet<Product> Products { get; set; }
