@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ayudantia.src.models
+namespace api.src.Models
 {
     public class Product
     {
