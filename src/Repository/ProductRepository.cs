@@ -32,14 +32,12 @@ namespace dotnet_web_api.Src.Repositories
                 return await GetAllProductsAsync();
 
             term = term.ToLower();
-#pragma warning disable CA1862 // Use the 'StringComparison' method overloads to perform case-insensitive string comparisons
             return await _dataContext
                 .Products.Where(p =>
                     p.Name.ToLower().Contains(term)
                     || (p.Description != null && p.Description.ToLower().Contains(term))
                 )
                 .ToListAsync();
-#pragma warning restore CA1862 // Use the 'StringComparison' method overloads to perform case-insensitive string comparisons
         }
 
         public async Task<IEnumerable<Product>> GetProductsByStoreAsync(int storeId)
