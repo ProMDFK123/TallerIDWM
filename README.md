@@ -57,5 +57,5 @@ TallerIDWM/
 
 ## 🧑‍💻 Autores
 
-Gabriel López - https://github.com/ProMDFK123  
-Vicente Ordenes - https://github.com/yakusu123
+Gabriel López - gabriel.lopez@alumnos.ucn.cl - 21.583.391-7 
+Vicente Ordenes - vicente.ordenes@alumnos.ucn.cl - 20.941.890-8
