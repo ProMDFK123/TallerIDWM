@@ -1,68 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using api.src.Data;
 using api.src.Interfaces;
 using api.src.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace dotnet_web_api.Src.Repositories
+namespace TallerIDWM.src.Repository
 {
-    public class ProductRepository(DataContext dataContext) : IProductRepository
+    public class ProductRepository : IProductRepository
     {
-        private readonly DataContext _dataContext = dataContext;
-
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        private readonly DataContext _context;
+        public ProductRepository(DataContext context)
         {
-            return await _dataContext.Products.ToListAsync();
+            _context = context;
         }
 
-        public async Task<Product?> GetProductByIdAsync(int id)
+        public async Task<Product> GetProductById(int id)
         {
-            return await _dataContext.Products.FindAsync(id);
+            return await _context.Products.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByPriceRangeAsync(decimal min, decimal max)
+        public async Task<IEnumerable<Product>> GetProducts()
         {
-            return await _dataContext
-                .Products.Where(p => p.Price >= min && p.Price <= max)
-                .ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> SearchProductsAsync(string term)
+        public async Task<Product> AddProduct(Product product)
         {
-            if (string.IsNullOrEmpty(term))
-                return await GetAllProductsAsync();
-
-            term = term.ToLower();
-            return await _dataContext
-                .Products.Where(p =>
-                    p.Name.ToLower().Contains(term)
-                    || (p.Description != null && p.Description.ToLower().Contains(term))
-                )
-                .ToListAsync();
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
+            return product;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByStoreAsync(int storeId)
+        public async Task<Product> UpdateProduct(Product product)
         {
-            return await _dataContext.Products.Where(p => p.StoreId == storeId).ToListAsync();
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+            return product;
         }
 
-        public async Task<IEnumerable<object>> GetProductsGroupedByStoreAsync()
+        public async Task DeleteProduct(int id)
         {
-            return await _dataContext
-                .Products.GroupBy(p => p.StoreId)
-                .Select(g => new
-                {
-                    StoreId = g.Key,
-                    Count = g.Count(),
-                    Products = g.ToList(),
-                })
-                .ToListAsync();
-        }
-
-        public async Task<Product?> GetMostExpensiveProductAsync()
-        {
-            return await _dataContext
-                .Products.OrderByDescending(p => p.Price)
-                .FirstOrDefaultAsync();
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
