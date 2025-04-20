@@ -16,6 +16,42 @@ namespace api.src.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
 
+            modelBuilder.Entity("api.src.Models.Address1", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Region")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("commune")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("postalCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Address1s");
+                });
+
             modelBuilder.Entity("api.src.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -44,42 +80,12 @@ namespace api.src.Data.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("StoreId")
-                        .HasColumnType("INTEGER");
-
                     b.PrimitiveCollection<string>("Urls")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StoreId");
-
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("api.src.Models.Store", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("api.src.Models.User", b =>
@@ -88,63 +94,47 @@ namespace api.src.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("BirthDate")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
+                    b.Property<string>("Address1")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("HouseNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Region")
+                    b.Property<string>("Thelephone")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Street")
+                    b.Property<string>("birthdate")
+                        .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("ZipCode")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("api.src.Models.Product", b =>
+            modelBuilder.Entity("api.src.Models.Address1", b =>
                 {
-                    b.HasOne("api.src.Models.Store", null)
-                        .WithMany("Products")
-                        .HasForeignKey("StoreId")
+                    b.HasOne("api.src.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("api.src.Models.Store", b =>
-                {
-                    b.Navigation("Products");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

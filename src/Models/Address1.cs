@@ -7,6 +7,7 @@ namespace api.src.Models
 {
     public class Address1
     {
+        public int Id { get; set; }
         public required string Street { get; set; }
         public required string City { get; set; }
         public required string commune { get; set; }
