@@ -50,7 +50,8 @@ TallerIDWM/
 │   │   ├── Interfaces/
 │   └── Program.cs
 ├── README.md
-└── launchSettings.json
+└── Properties/
+    └── launchSettings.json
 </pre>
 
 ## 🧑‍💻 Autores
