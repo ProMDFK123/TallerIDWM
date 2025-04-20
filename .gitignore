@@ -6,6 +6,7 @@
 # dotenv files
 .env
 appsetings.json
+TallerIDWM-main/
 
 # User-specific files
 *.rsuser

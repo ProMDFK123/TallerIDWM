@@ -11,6 +11,7 @@ namespace api.src.Models
         public required string Password { get; set; }
         public required string Thelephone { get; set; }
         public required string birthdate { get; set; }
-        public required string? Address1 { get; set; }
+        public required Address1? Address1 { get; set; }
+        public required string Role { get; set; }
     }
 }

@@ -27,17 +27,10 @@ namespace api.src.Data
         {
             context.Database.Migrate();
 
-            if (context.Products.Any() || context.Users.Any() || context.Stores.Any()) return;
+            if (context.Products.Any() || context.Users.Any() || context.Addresses.Any()) return;
 
             var faker = new Faker("es");
 
-            var stores = new Faker<Store>()
-                .RuleFor(s => s.Name, f => f.Company.CompanyName())
-                .RuleFor(s => s.Address, f => f.Address.FullAddress())
-                .RuleFor(s => s.Email, f => f.Internet.Email())
-                .Generate(5);
-            context.Stores.AddRange(stores);
-            context.SaveChanges();
 
             var products = new Faker<Product>()
                 .RuleFor(p => p.Name, f => f.Commerce.ProductName())
@@ -52,25 +45,80 @@ namespace api.src.Data
                     $"https://res.cloudinary.com/demo/image/upload/sample2.jpg",
                     $"https://res.cloudinary.com/demo/image/upload/sample3.jpg"
                 })
-                .RuleFor(p => p.StoreId, f => f.PickRandom(stores).Id)
+                .RuleFor(p => p.StoreId, f => f.Random.Int(1, 5))
                 .Generate(10);
+
+            foreach (var product in products)
+            {
+                if (!context.Products.Any(p => p.Name == product.Name))
+                {
+                    context.Set<Product>().Add(product);
+                }
+            }
+
             context.Set<Product>().AddRange(products);
-            context.SaveChanges();
 
             var users = new Faker<User>()
-                .RuleFor(u => u.Email, f => f.Internet.Email())
-                .RuleFor(u => u.Name, f => f.Name.FirstName())
+                .RuleFor(u => u.Id, f => f.IndexFaker + 1)
+                .RuleFor(u => u.FirstName, f => f.Name.FirstName())
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
+                .RuleFor(u => u.Email, f => f.Internet.Email())
                 .RuleFor(u => u.Password, f => f.Internet.Password())
-                .RuleFor(u => u.PhoneNumber, f => int.Parse(f.Phone.PhoneNumber("##########")))
-                .RuleFor(u => u.BirthDate, f => f.Date.Past(30, DateTime.Today.AddYears(-18)).ToString("yyyy-MM-dd"))
-                .RuleFor(u => u.Street, f => f.Address.StreetName())
-                .RuleFor(u => u.HouseNumber, f => f.Random.Int(1, 9999))
-                .RuleFor(u => u.City, f => f.Address.City())
-                .RuleFor(u => u.Region, f => f.Address.State())
-                .RuleFor(u => u.ZipCode, f => int.Parse(f.Address.ZipCode("#####")))
-                .Generate(10);
-            context.Users.AddRange(users);
+                .RuleFor(u => u.Thelephone, f => f.Phone.PhoneNumber("##########"))
+                .RuleFor(u => u.birthdate, f => f.Date.Past(30, DateTime.Today.AddYears(-18)).ToString("yyyy-MM-dd"))
+                .RuleFor(u => u.Role, f => f.PickRandom("cliente", "administrador"))
+                .RuleFor(u => u.Address1, (f, u) => f.Random.Bool() ? new Address1
+                {
+                    Street = f.Address.StreetAddress(),
+                    City = f.Address.City(),
+                    commune = f.Address.County(),
+                    Region = f.Address.State(),
+                    postalCode = f.Address.ZipCode(),
+                    User = u
+                } : null)
+                .Generate(9);
+
+            foreach (var user in users)
+            {
+                if (!context.Users.Any(u => u.Email == user.Email))
+                {
+                    context.Users.Add(user);
+                }
+            }
+
+            var addresses = users.Select(user => user.Address1).Where(a => a != null).ToList();
+            foreach (var address in addresses)
+            {
+                if (!context.Addresses.Any(a => a.Street == address.Street && a.postalCode == address.postalCode))
+                {
+                    context.Addresses.Add(address);
+                }
+            }
+
+            var ignacio = new User
+            {
+                Id = 10,
+                FirstName = "Ignacio",
+                LastName = "Mancilla",
+                Email = "ignacio.mancilla@gmail.com",
+                Password = "Pa$$word2025",
+                Thelephone = "973465281",
+                birthdate = "1999-06-05",
+                Role = "administrador",
+                Address1 = new Address1
+                {
+                    Street = "Calle Falsa 555",
+                    City = "Santiago",
+                    commune = "Ñuñoa",
+                    Region = "RM",
+                    postalCode = "1240000"
+                }
+            };
+            ignacio.Address1.User = ignacio;
+
+            context.Users.Add(ignacio);
+            context.Addresses.Add(ignacio.Address1);
+
             context.SaveChanges();
         }
     }

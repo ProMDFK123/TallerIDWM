@@ -12,7 +12,7 @@ namespace api.src.Models
         public required string commune { get; set; }
         public required string Region { get; set; }
         public required string postalCode { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; } = null!;
+        public int? UserId { get; set; }
+        public User? User { get; set; } = null!;
     }
 }
