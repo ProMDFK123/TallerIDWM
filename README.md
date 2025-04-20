@@ -1,6 +1,6 @@
 # TallerIDWM
 
-Este repositorio corresponde al Taller de la asignatura Introducción al Desarrollo Web/Móvil, el cual consiste en realizar un e-commerce basado en una arquitectura cliente-servidor
+Este repositorio corresponde al Taller de la asignatura Introducción al Desarrollo Web/Móvil, el cual consiste en realizar un e-commerce basado en una arquitectura cliente-servidor, utilizando para ello una API REST.
 
 ## 🛠️ Tecnologías
 
@@ -16,21 +16,17 @@ Este repositorio corresponde al Taller de la asignatura Introducción al Desarro
 ```bash
 git clone https://github.com/ProMDFK123/TallerIDWM.git
 ```
-2. Entra en la carpeta del proyecto:
-```bash
-cd TallerIDWM/api
-```
-3. Restaura paquetes:
+2. Restaura paquetes:
 ```bash
 dotnet restore
 ```
-4. Aplica las migraciones:
+3. Aplica las migraciones:
 ```bash
-   dotnet ef database update
+dotnet ef database update
 ```
-5. Ejecuta el proyecto:
+4. Ejecuta el proyecto:
 ```bash
-   dotnet run
+dotnet run
 ```
 
 ## 🧪 Datos de Prueba
@@ -43,19 +39,22 @@ El archivo DbInitializer.cs genera datos falsos al iniciar el proyecto si no hay
 TallerIDWM/
 │
 ├── api/
-│   ├── Controllers/
-│   ├── Services/
-│   ├── Repositories/
-│   ├── Models/
-│   ├── DTOs/
-│   ├── Data/
-│   ├── Interfaces/
+│   ├── src/
+│   │   ├── Controllers/
+│   │   ├── Services/
+│   │   ├── Repositories/
+│   │   ├── Models/
+│   │   ├── DTOs/
+│   │   ├── Data/
+│   │   │   └──Migrations/
+│   │   ├── Interfaces/
 │   └── Program.cs
 ├── README.md
-└── launchSettings.json
+└── Properties/
+    └── launchSettings.json
 </pre>
 
 ## 🧑‍💻 Autores
 
-Gabriel López - https://github.com/ProMDFK123  
-Vicente Ordenes - https://github.com/yakusu123
+Gabriel López - gabriel.lopez@alumnos.ucn.cl - 21.583.391-7  
+Vicente Ordenes - vicente.ordenes@alumnos.ucn.cl - 20.941.890-8
