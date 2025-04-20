@@ -39,14 +39,15 @@ El archivo DbInitializer.cs genera datos falsos al iniciar el proyecto si no hay
 TallerIDWM/
 │
 ├── api/
-│   ├── Controllers/
-│   ├── Services/
-│   ├── Repositories/
-│   ├── Models/
-│   ├── DTOs/
-│   ├── Data/
-│   │   └──Migrations/
-│   ├── Interfaces/
+│   ├── src/
+│   │   ├── Controllers/
+│   │   ├── Services/
+│   │   ├── Repositories/
+│   │   ├── Models/
+│   │   ├── DTOs/
+│   │   ├── Data/
+│   │   │   └──Migrations/
+│   │   ├── Interfaces/
 │   └── Program.cs
 ├── README.md
 └── launchSettings.json
