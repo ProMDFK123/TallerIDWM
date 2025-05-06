@@ -4,12 +4,9 @@ namespace api.src.Interfaces
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetAllProductsAsync();
-        Task<Product?> GetProductByIdAsync(int id);
-        Task<IEnumerable<Product>> GetProductsByPriceRangeAsync(decimal min, decimal max);
-        Task<IEnumerable<Product>> SearchProductsAsync(string term);
-        Task<IEnumerable<Product>> GetProductsByStoreAsync(int storeId);
-        Task<IEnumerable<object>> GetProductsGroupedByStoreAsync();
-        Task<Product?> GetMostExpensiveProductAsync();
+        Task<Product> GetProductById(int id);
+        Task<IEnumerable<Product>> GetProducts();
+        Task<Product> AddProduct(Product product);
+        Task<Product> UpdateProduct(Product product);
     }
 }

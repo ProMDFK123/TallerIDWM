@@ -1,8 +1,9 @@
 using api.src.Data;
-
+using api.src.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 using Serilog;
+using TallerIDWM.src.Repository;
 Log.Logger = new LoggerConfiguration()
 
     .CreateLogger();
@@ -13,7 +14,8 @@ try
     builder.Services.AddControllers();
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-    builder.Host.UseSerilog((context, services, configuration) =>
+    builder.Services.AddScoped<IProductRepository, ProductRepository>();
+    builder.Host.UseSerilog((context, services, configuration) => 
     {
         configuration
             .ReadFrom.Configuration(context.Configuration)
