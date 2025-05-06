@@ -27,7 +27,8 @@ namespace api.src.Data
         {
             context.Database.Migrate();
 
-            if (context.Products.Any() || context.Users.Any() || context.Address1s.Any()) return;
+            //Faker para Products
+            if (context.Products.Any()) return;
 
             var faker = new Faker("es");
             var productFaker = new Faker<Product>("es")
@@ -41,6 +42,58 @@ namespace api.src.Data
 
             .Generate(10); 
             context.Set<Product>().AddRange(productFaker);
+            context.SaveChanges();
+
+            //Faker para Users
+            if (context.Users.Any()) return;
+
+            var userFaker = new Faker<User>("es")
+                .RuleFor(u => u.FirstName, f => f.Person.FullName)
+                .RuleFor(u => u.Email, f => f.Internet.Email())
+                .RuleFor(u => u.Password, f => f.Internet.Password())
+                .RuleFor(u => u.Address1, f => f.Address.FullAddress())
+                .RuleFor(u => u.Thelephone, f => f.Phone.PhoneNumber())
+                .RuleFor(u => u.Role, f => f.PickRandom("cliente", "administrador"))
+                .Generate(9);
+            
+            context.Set<User>().AddRange(userFaker);
+            
+            var specificUserFaker = new Faker<User>("es")
+                .RuleFor(u => u.FirstName, "Ignacio")
+                .RuleFor(u => u.LastName, "Mancilla")
+                .RuleFor(u => u.Email, "ignacio.mancilla01@gmail.com")
+                .RuleFor(u => u.Password, "Pa$$word2025")
+                .RuleFor(u => u.Role, "administrador")
+                .RuleFor(u => u.Thelephone, f => f.Phone.PhoneNumber())
+                .RuleFor(u => u.birthdate, f => f.Date.Past(50, DateTime.Now.AddYears(-18)).ToString("yyyy-MM-dd"))
+                .RuleFor(u => u.Address1, f => f.Address.StreetAddress());
+
+            context.Set<User>().Add(specificUserFaker.Generate());
+            context.SaveChanges();
+
+            //Faker para Address1s
+            if(context.Address1s.Any()) return;
+
+            var addressFaker = new Faker<Address1>("es")
+                .RuleFor(a => a.Street, f => f.Address.FullAddress())
+                .RuleFor(a => a.City, f => f.Address.City())
+                .RuleFor(a => a.commune, f => f.Address.State())
+                .RuleFor(a => a.postalCode, f => f.Address.ZipCode())
+                .RuleFor(a => a.Region, f => f.Address.State())
+                .RuleFor(a => a.UserId, f => f.Random.Int(1, 10))
+                .RuleFor(a => a.User, (f, a) => null!)
+                .Generate(10);
+
+            var addresses = addressFaker.ToList();
+            context.Set<Address1>().AddRange(addressFaker);
+
+            var users = context.Set<User>().Where(u => addresses.Select(a => a.UserId).Contains(u.Id)).ToList();
+
+            foreach (var address in addresses)
+            {
+                address.User = users.FirstOrDefault(u => u.Id == address.UserId);
+            }
+
             context.SaveChanges();
         }
     }
