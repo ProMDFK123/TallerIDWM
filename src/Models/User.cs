@@ -1,8 +1,13 @@
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace api.src.Models
 {
-    public class User
+    public class User : IdentityUser
     {
         public required int Id { get; set; }
         public required string FirstName { get; set; }
