@@ -8,6 +8,7 @@ using api.src.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using TallerIDWM.src.Dtos;
 using TallerIDWM.src.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_web_api.Src.Controllers
 {
