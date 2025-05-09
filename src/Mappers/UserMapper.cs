@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.src.Dtos;
 using api.src.Models;
+using TallerIDWM.src.Dtos;
 
 namespace TallerIDWM.src.Mappers
 {
