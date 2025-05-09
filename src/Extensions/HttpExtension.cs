@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Net.Http.Headers;
 using api.src.RequestHelpers;
+using System.Text.Json;
 
 namespace api.src.Extensions
 {
@@ -13,7 +14,7 @@ namespace api.src.Extensions
         {
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-            response.Hesaders.Append("Pagination", JsonSerializer.Serialize(metadata, options));
+            response.Headers.Append("Pagination", JsonSerializer.Serialize(metadata, options));
             response.Headers.Append(HeaderNames.AccessControlExposeHeaders, "Pagination");
         }
     }

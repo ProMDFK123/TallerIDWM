@@ -13,10 +13,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace api.src.Controllers
 {
-    public class AuthController(ILogger<AuthController> logger, UserManager<User> userManager, ITokenServices tokenService)
+    public class AuthController(ILogger<AuthController> logger, UserManager<User> userManager, ITokenServices tokenService) : ControllerBase
     {
         private readonly ILogger<AuthController> _logger = logger;
         private readonly UserManager<User> _userManager = userManager;

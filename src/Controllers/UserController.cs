@@ -75,7 +75,7 @@ namespace dotnet_web_api.Src.Controllers
 
             var dtos = user.Select(u => UserMapper.UserToUserDto(u)).ToList();
 
-            Response.AddPaginationHeader(new PaginationMetadata
+            Response.AddPaginationHeader(new PaginationMetaData
             {
                 CurrentPage = userParams.PageNumber,
                 TotalPages = (int)Math.Ceiling((double)total / userParams.PageSize),
