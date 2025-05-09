@@ -18,11 +18,6 @@ namespace TallerIDWM.src.Mappers
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 PhoneNumber = registerDto.PhoneNumber,
-                Address = registerDto.Address,
-                City = registerDto.City,
-                State = registerDto.State,
-                Country = registerDto.Country,
-                ZipCode = registerDto.ZipCode
             };
         }
     }
