@@ -9,15 +9,17 @@ using Microsoft.AspNetCore.Authorization;
 using TallerIDWM.src.Dtos;
 using TallerIDWM.src.Mappers;
 using Microsoft.EntityFrameworkCore;
+using api.src.Extensions;
 
 namespace api.Src.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController(IUserRepository userRepository, UnitOfWork unitOfWork) : ControllerBase
+    public class UserController(IUserRepository userRepository, UnitOfWork unitOfWork, UserMapper userMapper) : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork = unitOfWork;
         private readonly IUserRepository _userRepository = userRepository;
+        private readonly UserMapper _userMapper = userMapper;
 
 
         [HttpGet]
@@ -75,7 +77,7 @@ namespace api.Src.Controllers
                 .Take(userParams.PageSize)
                 .ToListAsync();
 
-            var dtos = users.Select(u => UserMapper.UserToUserDto(u)).ToList();
+            var dtos = users.Select(u => _userMapper.UserToUserDto(u)).ToList();
 
             Response.AddPaginationHeader(new PaginationMetaData
             {
