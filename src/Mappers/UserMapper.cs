@@ -46,6 +46,11 @@ namespace TallerIDWM.src.Mappers
                 Thelephone = user.Thelephone,
                 RegisteredAt = user.RegisteredAt,
                 IsActive = user.IsActive,
+                Street = user.Street,
+                commune = user.commune,
+                Region = user.Region,
+                postalCode = user.postalCode,
+                Password = user.Password
             };
         }
     }
