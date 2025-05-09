@@ -55,7 +55,7 @@ namespace api.src.Controllers
                 var role = await _userManager.GetRolesAsync(user);
                 var roleName = role.FirstOrDefault() ?? "User";
 
-                var token = await _tokenService.GenerateToken(user, roleName);
+                var token = _tokenService.GenerateToken(user, roleName);
                 var userDto = _userMapper.UserToAuthenticatedDto(user, token);
 
                 return Ok(new ApiResponse<AuthenticatedUserDto>(true, "Usuario creado correctamente", userDto));

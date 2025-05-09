@@ -20,5 +20,16 @@ namespace TallerIDWM.src.Mappers
                 Thelephone = registerDto.PhoneNumber,
             };
         }
-    }
+
+        public AuthenticatedUserDto UserToAuthenticatedDto(User user, string token)
+        {
+            return new AuthenticatedUserDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Token = token,
+                // ... otras propiedades que quieras incluir en la respuesta de autenticación
+            };
+        }
 }
