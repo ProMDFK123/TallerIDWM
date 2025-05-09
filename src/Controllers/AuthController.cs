@@ -14,7 +14,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using TallerIDWM.src.Mappers;
 
 namespace api.src.Controllers
 {
@@ -35,7 +34,7 @@ namespace api.src.Controllers
                     return BadRequest(new ApiResponse<string>(false, "Datos Invalidos", null, ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()));
                 }
 
-                var user = UserMapper.RegisterToUser(newUser);
+                var user = _userMapper.RegisterToUser(newUser);
                 if (string.IsNullOrEmpty(newUser.Password) || string.IsNullOrEmpty(newUser.ConfirmPassword))
                 {
                     return BadRequest(new ApiResponse<string>(false, "La contraseña y/o la confirmación no pueden estar vacias"));
