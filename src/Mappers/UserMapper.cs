@@ -32,5 +32,20 @@ namespace TallerIDWM.src.Mappers
                 // ... otras propiedades que quieras incluir en la respuesta de autenticación
             };
         }
+
+        public UserDto UserToUserDto(User user)
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Thelephone = user.Thelephone,
+                RegisteredAt = user.RegisteredAt,
+                IsActive = user.IsActive,
+            };
+        }
     }
 }

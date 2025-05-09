@@ -75,7 +75,7 @@ namespace api.Src.Controllers
                 .Take(userParams.PageSize)
                 .ToListAsync();
 
-            var dtos = user.Select(u => UserMapper.UserToUserDto(u)).ToList();
+            var dtos = users.Select(u => UserMapper.UserToUserDto(u)).ToList();
 
             Response.AddPaginationHeader(new PaginationMetaData
             {
