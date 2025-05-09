@@ -35,7 +35,7 @@ namespace api.src.Extensions
 
             var lowerCaseSearch = search.Trim().ToLower();
 
-            return query.Where(p => p.Name.ToLowe().Contains(lowerCaseSearch));
+            return query.Where(p => p.Name.ToLower().Contains(lowerCaseSearch));
         }
 
         public static IQueryable<Product> Sort(this IQueryable<Product> query, string? orderBy)
