@@ -14,7 +14,7 @@ namespace dotnet_web_api.Src.Controllers
     [Route("[controller]")]
     public class UserController(IUserRepository userRepository, UnitOfWork unitOfWork) : ControllerBase
     {
-        private readonly UnitOfWork _context = unitOfWork;
+        private readonly UnitOfWork _unitOfWork = unitOfWork;
         private readonly IUserRepository _userRepository = userRepository;
 
 
