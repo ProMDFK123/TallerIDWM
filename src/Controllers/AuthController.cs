@@ -56,7 +56,7 @@ namespace api.src.Controllers
                 var roleName = role.FirstOrDefault() ?? "User";
 
                 var token = await _tokenService.GenerateToken(user, roleName);
-                var userDto = UserMapper.UserToAuthenticatedDto(user, token);
+                var userDto = _userMapper.UserToAuthenticatedDto(user, token);
 
                 return Ok(new ApiResponse<AuthenticatedUserDto>(true, "Usuario creado correctamente", userDto));
             }
@@ -93,7 +93,7 @@ namespace api.src.Controllers
                 var roleName = roles.FirstOrDefault() ?? "User";
 
                 var token = await _tokenService.GenerateToken(user, roleName);
-                var userDto = UserMapper.UserToAuthenticatedDto(user, token);
+                var userDto = _userMapper.UserToAuthenticatedDto(user, token);
 
                 return Ok(new ApiResponse<AuthenticatedUserDto>(true, "Login exitoso", userDto));
             }
