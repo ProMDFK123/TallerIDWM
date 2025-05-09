@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-namespace TallerIDWM.src.Data
+namespace api.src.Data
 {
     public class DataContext(DbContextOptions<DataContext> options) : IdentityDbContext<User>(options)
 {
