@@ -9,17 +9,27 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace TallerIDWM.src.Data
 {
     public class DataContext(DbContextOptions<DataContext> options) : IdentityDbContext<User>(options)
-    {
-        public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<Address1> Address1s { get; set; } = null!;
-        public DbSet<User> Users { get; set; } = null!;
+{
+    public required DbSet<Product> Products { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Product>().ToTable("Products");
-            modelBuilder.Entity<Address1>().ToTable("Address1s");
-            modelBuilder.Entity<User>().ToTable("Users");
-        }
+    public required DbSet<Address1> Address1 { get; set; }
+
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<User>()
+        .HasOne<Address1>(u => u.Address1)
+        .WithOne(a => a.User)
+        .HasForeignKey<Address1>(a => a.UserId);
+        List<IdentityRole> roles =
+        [
+            new IdentityRole { Id = "1" ,Name = "Admin", NormalizedName = "ADMIN" },
+            new IdentityRole { Id = "2" ,Name = "User", NormalizedName = "USER" }
+        ];
+
+        modelBuilder.Entity<IdentityRole>().HasData(roles);
     }
+}
 }

@@ -51,9 +51,15 @@ namespace api.src.Data
                 .RuleFor(u => u.FirstName, f => f.Person.FullName)
                 .RuleFor(u => u.Email, f => f.Internet.Email())
                 .RuleFor(u => u.Password, f => f.Internet.Password())
-                .RuleFor(u => u.Address1, f => f.Address.FullAddress())
+                .RuleFor(u => u.Address1, (f, u) => new Address1
+                {
+                    Street = f.Address.StreetAddress(),
+                    City = f.Address.City(),
+                    Region = f.Address.State(),
+                    postalCode = f.Address.ZipCode(),
+                    commune = f.Address.State()
+                })
                 .RuleFor(u => u.Thelephone, f => f.Phone.PhoneNumber())
-                .RuleFor(u => u.Role, f => f.PickRandom("cliente", "administrador"))
                 .Generate(9);
             
             context.Set<User>().AddRange(userFaker);
@@ -63,16 +69,21 @@ namespace api.src.Data
                 .RuleFor(u => u.LastName, "Mancilla")
                 .RuleFor(u => u.Email, "ignacio.mancilla01@gmail.com")
                 .RuleFor(u => u.Password, "Pa$$word2025")
-                .RuleFor(u => u.Role, "administrador")
                 .RuleFor(u => u.Thelephone, f => f.Phone.PhoneNumber())
-                .RuleFor(u => u.birthdate, f => f.Date.Past(50, DateTime.Now.AddYears(-18)).ToString("yyyy-MM-dd"))
-                .RuleFor(u => u.Address1, f => f.Address.StreetAddress());
+                .RuleFor(u => u.Address1, (f, u) => new Address1
+                {
+                    Street = f.Address.StreetAddress(),
+                    City = f.Address.City(),
+                    Region = f.Address.State(),
+                    postalCode = f.Address.ZipCode(),
+                    commune = f.Address.State()
+                });
 
             context.Set<User>().Add(specificUserFaker.Generate());
             context.SaveChanges();
 
             //Faker para Address1s
-            if(context.Address1s.Any()) return;
+            if(context.Address1.Any()) return;
 
             var addressFaker = new Faker<Address1>("es")
                 .RuleFor(a => a.Street, f => f.Address.FullAddress())
@@ -80,7 +91,7 @@ namespace api.src.Data
                 .RuleFor(a => a.commune, f => f.Address.State())
                 .RuleFor(a => a.postalCode, f => f.Address.ZipCode())
                 .RuleFor(a => a.Region, f => f.Address.State())
-                .RuleFor(a => a.UserId, f => f.Random.Int(1, 10))
+                .RuleFor(a => a.UserId, (f, a) => f.Random.Guid().ToString())
                 .RuleFor(a => a.User, (f, a) => null!)
                 .Generate(10);
 
