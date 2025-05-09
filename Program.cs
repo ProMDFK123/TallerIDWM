@@ -15,6 +15,9 @@ try
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
     builder.Services.AddScoped<IProductRepository, ProductRepository>();
+    builder.Services.AddScoped<IUserRepository>(); //Falta implementar IUserRepository
+    builder.Services.AddScoped<IAddress1Repository>(); //Falta implementar IAddress1Repository
+    builder.Services.AddScoped<UnitOfWork>();
     builder.Host.UseSerilog((context, services, configuration) => 
     {
         configuration

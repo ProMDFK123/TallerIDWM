@@ -1,3 +1,4 @@
+using api.src.Data;
 using api.src.Interfaces;
 using api.src.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -6,8 +7,9 @@ namespace dotnet_web_api.Src.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProductController(IProductRepository productRepository) : ControllerBase
+    public class ProductController(IProductRepository productRepository, UnitOfWork unitOfWork) : ControllerBase
     {
+        private readonly UnitOfWork _context = unitOfWork;
         private readonly IProductRepository _productRepository = productRepository;
 
 
