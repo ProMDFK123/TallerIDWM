@@ -33,6 +33,23 @@ try
         opt.SignIn.RequireConfirmedEmail = false;
     })
     .AddEntityFrameworkStores<DataContext>();
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    }); 
+    builder.Services.AddDbContext<DataContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
     builder.Host.UseSerilog((context, services, configuration) => 
     {
         configuration
@@ -45,6 +62,8 @@ try
 
     var app = builder.Build();
     DbInitializer.InitDb(app);
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.MapControllers();
     app.Run();
 }
