@@ -7,7 +7,7 @@ namespace TallerIDWM.src.Dtos
 {
     public class UserDto
     {
-        public required string FirstName { get; set; }  
+        public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Email { get; set; }
         public required string Thelephone { get; set; }
@@ -16,6 +16,6 @@ namespace TallerIDWM.src.Dtos
         public required string? commune { get; set; }
         public required string? Region { get; set; }
         public required string? postalCode { get; set; }
-        
+
     }
 }

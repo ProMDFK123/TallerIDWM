@@ -13,12 +13,12 @@ namespace api.src.Extensions
             var brandList = new List<string>();
             var categoryList = new List<string>();
 
-            if(!string.IsNullOrWhiteSpace(brands))
+            if (!string.IsNullOrWhiteSpace(brands))
             {
                 brandList.AddRange(brands.ToLower().Split(","));
             }
 
-            if(!string.IsNullOrWhiteSpace(categories))
+            if (!string.IsNullOrWhiteSpace(categories))
             {
                 categoryList.AddRange(categories.ToLower().Split(","));
             }
@@ -31,7 +31,7 @@ namespace api.src.Extensions
 
         public static IQueryable<Product> Search(this IQueryable<Product> query, string? search)
         {
-            if(string.IsNullOrWhiteSpace(search)) return query;
+            if (string.IsNullOrWhiteSpace(search)) return query;
 
             var lowerCaseSearch = search.Trim().ToLower();
 

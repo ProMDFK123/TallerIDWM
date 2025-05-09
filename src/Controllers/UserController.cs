@@ -38,14 +38,15 @@ namespace dotnet_web_api.Src.Controllers
         // Obtiene una lista de usuarios con paginación y filtros
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<IEnumerable<UserDto>>> GetAll([FromQuery] UserParams userParams)
+        public async Task<ActionResult<ApiResponse<IEnumerable<UserDto>>>> GetAll([FromQuery] UserParams userParams)
         {
             var query = _unitOfWork.UserRepository.GetUsersQueryable();
 
-            if(userParams.IsActive.HasValue)
+            if (userParams.IsActive.HasValue)
                 query = query.Where(u => u.IsActive == userParams.IsActive.Value);
 
-            if(!string.IsNullOrWhiteSpace(userParams.SearchTerm)){
+            if (!string.IsNullOrWhiteSpace(userParams.SearchTerm))
+            {
                 var term = userParams.SearchTerm.ToLower();
                 query = query.Where(u =>
                     u.FirstName.Contains(userParams.SearchTerm) ||
@@ -53,10 +54,10 @@ namespace dotnet_web_api.Src.Controllers
                     (u.Email != null && u.Email.ToLower().Contains(term)));
             }
 
-            if(userParams.RegisteredFrom.HasValue)
+            if (userParams.RegisteredFrom.HasValue)
                 query = query.Where(u => u.RegisteredAt >= userParams.RegisteredFrom.Value);
 
-            if(userParams.RegisteredTo.HasValue)
+            if (userParams.RegisteredTo.HasValue)
                 query = query.Where(u => u.RegisteredAt <= userParams.RegisteredTo.Value);
 
             var total = await query.CountAsync();

@@ -25,26 +25,27 @@ namespace api.src.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto newUser)
         {
-            try{
-                if(!ModelState.IsValid)
+            try
+            {
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(new ApiResponse<string>(false, "Datos Invalidos", null, ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()));
                 }
 
                 var user = UserMapper.RegisterToUser(newUser);
-                if(string.IsNullOrEmpty(newUser.Password) || string.IsNullOrEmpty(newUser.ConfirmPassword))
+                if (string.IsNullOrEmpty(newUser.Password) || string.IsNullOrEmpty(newUser.ConfirmPassword))
                 {
                     return BadRequest(new ApiResponse<string>(false, "La contraseña y/o la confirmación no pueden estar vacias"));
                 }
 
                 var createUser = await _userManager.CreateAsync(user, newUser.Password);
-                if(!createUser.Succeeded)
+                if (!createUser.Succeeded)
                 {
                     return BadRequest(new ApiResponse<string>(false, "Error al crear el usuario", null, createUser.Errors.Select(e => e.Description).ToList()));
                 }
 
                 var roleUser = await _userManager.AddToRoleAsync(user, "User");
-                if(!roleUser.Succeeded)
+                if (!roleUser.Succeeded)
                 {
                     return BadRequest(new ApiResponse<string>(false, "Error al asignar el rol de usuario", null, roleUser.Errors.Select(e => e.Description).ToList()));
                 }
@@ -67,19 +68,20 @@ namespace api.src.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            try{
-                if(!ModelState.IsValid)
+            try
+            {
+                if (!ModelState.IsValid)
                     return BadRequest(new ApiResponse<string>(false, "Datos Invalidos", null, ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()));
 
                 var user = await _userManager.FindByEmailAsync(loginDto.Email);
-                if(user == null)
+                if (user == null)
                     return Unauthorized(new ApiResponse<string>(false, "Correo o contraseña incorrectos"));
 
-                if(!user.IsActive)
+                if (!user.IsActive)
                     return Unauthorized(new ApiResponse<string>(false, "Tu cuenta no esta activa, contacta al administrador"));
 
                 var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
-                if(!result)
+                if (!result)
                     return Unauthorized(new ApiResponse<string>(false, "Correo o contraseña incorrectos"));
 
                 user.LastLogin = DateTime.UtcNow;
@@ -99,4 +101,5 @@ namespace api.src.Controllers
                 return StatusCode(500, new ApiResponse<string>(false, "Error interno del servidor", null, new List<string> { "Error interno del servidor" }));
             }
         }
+    }
 }

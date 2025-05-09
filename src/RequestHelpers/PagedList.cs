@@ -10,7 +10,8 @@ namespace api.src.RequestHelpers
     {
         public PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
-            Metadata = new PaginationMetaData{
+            Metadata = new PaginationMetaData
+            {
                 TotalCount = count,
                 PageSize = pageSize,
                 CurrentPage = pageNumber,

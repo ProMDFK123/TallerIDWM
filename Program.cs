@@ -51,10 +51,10 @@ try
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SingInKey"]!)),
             RoleClaimType = ClaimTypes.Role
         };
-    }); 
+    });
     builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-    builder.Host.UseSerilog((context, services, configuration) => 
+    builder.Host.UseSerilog((context, services, configuration) =>
     {
         configuration
             .ReadFrom.Configuration(context.Configuration)

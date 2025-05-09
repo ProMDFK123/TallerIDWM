@@ -7,6 +7,6 @@ namespace api.src.Dtos
 {
     public class LoginDto
     {
-        
+
     }
 }

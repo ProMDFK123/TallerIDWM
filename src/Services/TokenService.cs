@@ -17,7 +17,7 @@ namespace TallerIDWM.src.Services
 {
     public class TokenService : ITokenServices
     {
-        private readonly IConfiguration  _config;
+        private readonly IConfiguration _config;
         private readonly SymmetricSecurityKey _key;
         public TokenService(IConfiguration config)
         {
