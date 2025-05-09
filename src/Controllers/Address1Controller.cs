@@ -1,3 +1,4 @@
+using api.src.Data;
 using api.src.Interfaces;
 using api.src.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -6,8 +7,9 @@ namespace dotnet_web_api.Src.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class Address1Controller(IAddress1Repository address1Repository) : ControllerBase
+    public class Address1Controller(IAddress1Repository address1Repository, UnitOfWork unitOfWork) : ControllerBase
     {
+        private readonly UnitOfWork _context = unitOfWork;
         private readonly IAddress1Repository _address1Repository = address1Repository;
 
 
