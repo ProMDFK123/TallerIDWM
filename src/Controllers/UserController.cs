@@ -6,6 +6,7 @@ using api.src.Helpers;
 using api.src.RequestHelpers;
 using api.src.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using TallerIDWM.src.Dtos;
 
 namespace dotnet_web_api.Src.Controllers
 {
