@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.src.Interfaces;
-using TallerIDWM.src.Data;
+using api.src.Data;
 
-namespace TallerIDWM.src.Data;
+namespace api.src.Data;
 public class UnitOfWork(DataContext context, IProductRepository productRepository, IAddress1Repository address1Repository, IUserRepository userRepository)
 {
     private readonly DataContext dataContext = context;
