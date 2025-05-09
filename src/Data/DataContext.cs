@@ -13,6 +13,7 @@ namespace api.src.Data
         public required DbSet<Product> Products { get; set; }
 
         public required DbSet<Address1> Address1 { get; set; }
+        public required DbSet<Basket> Baskets { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
