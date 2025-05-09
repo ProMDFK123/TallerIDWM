@@ -32,4 +32,5 @@ namespace TallerIDWM.src.Mappers
                 // ... otras propiedades que quieras incluir en la respuesta de autenticación
             };
         }
+    }
 }
