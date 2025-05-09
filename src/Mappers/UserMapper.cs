@@ -17,7 +17,7 @@ namespace TallerIDWM.src.Mappers
                 Email = registerDto.Email,
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
-                PhoneNumber = registerDto.PhoneNumber,
+                Thelephone = registerDto.PhoneNumber,
             };
         }
     }

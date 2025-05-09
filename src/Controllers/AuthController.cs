@@ -14,14 +14,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using TallerIDWM.src.Mappers;
 
 namespace api.src.Controllers
 {
-    public class AuthController(ILogger<AuthController> logger, UserManager<User> userManager, ITokenServices tokenService) : ControllerBase
+    public class AuthController(ILogger<AuthController> logger, UserManager<User> userManager, ITokenServices tokenService, UserMapper userMapper) : ControllerBase
     {
         private readonly ILogger<AuthController> _logger = logger;
         private readonly UserManager<User> _userManager = userManager;
         private readonly ITokenServices _tokenService = tokenService;
+        private readonly UserMapper _userMapper = userMapper;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto newUser)
