@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Net.Http.Headers;
+using api.src.RequestHelpers;
 
 namespace api.src.Extensions
 {

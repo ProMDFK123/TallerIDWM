@@ -2,6 +2,10 @@ using api.src.Data;
 using api.src.Interfaces;
 using api.src.Models;
 using Microsoft.AspNetCore.Mvc;
+using api.src.Helpers;
+using api.src.RequestHelpers;
+using api.src.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dotnet_web_api.Src.Controllers
 {
