@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using api.src.Data;
 using api.src.Interfaces;
 using api.src.Models;
 
@@ -14,6 +14,7 @@ namespace TallerIDWM.Src.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly UserManager<User> _userManager;
+        private readonly DataContext _context;
 
         public UserRepository(UserManager<User> userManager)
         {

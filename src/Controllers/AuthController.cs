@@ -86,13 +86,13 @@ namespace api.src.Controllers
                 if (!result)
                     return Unauthorized(new ApiResponse<string>(false, "Correo o contraseña incorrectos"));
 
-                user.LastLogin = DateTime.UtcNow;
+                user.LastAccess = DateTime.UtcNow;
                 await _userManager.UpdateAsync(user);
 
                 var roles = await _userManager.GetRolesAsync(user);
                 var roleName = roles.FirstOrDefault() ?? "User";
 
-                var token = await _tokenService.GenerateToken(user, roleName);
+                var token = _tokenService.GenerateToken(user, roleName);
                 var userDto = _userMapper.UserToAuthenticatedDto(user, token);
 
                 return Ok(new ApiResponse<AuthenticatedUserDto>(true, "Login exitoso", userDto));
