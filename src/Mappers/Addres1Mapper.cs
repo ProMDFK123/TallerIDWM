@@ -8,7 +8,7 @@ using api.src.Models;
 
 namespace TallerIDWM.src.Mappers
 {
-    public static  class Addres1Mapper
+    public static class Addres1Mapper
     {
         public static Address1 FromDto(CreateAddres1Dto dto, string userId)
         {

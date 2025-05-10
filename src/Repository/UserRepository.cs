@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 
 using api.src.Interfaces;
 using api.src.Models;
+using api.src.Data;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace TallerIDWM.src.Repositories
 {
-    public class UserRepository(UserManager<User> userManager) : IUserRepository
+    public class UserRepository(UserManager<User> userManager, DataContext context) : IUserRepository
     {
         private readonly UserManager<User> _userManager = userManager;
+        private readonly DataContext _context = context;
+
         public IQueryable<User> GetUsersQueryable()
         {
             return _userManager.Users.Include(u => u.Address1).AsQueryable();
@@ -60,12 +63,9 @@ namespace TallerIDWM.src.Repositories
         {
             throw new NotImplementedException();
         }
-        
+
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
-        }
-            // Aquí va la lógica para obtener todos los usuarios de la base de datos
             return await _context.Users.ToListAsync();
         }
 
