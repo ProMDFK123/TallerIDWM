@@ -16,7 +16,7 @@ namespace TallerIDWM.src.Repositories
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly DataContext _context = context;
-        
+
         public IQueryable<User> GetUsersQueryable()
         {
             return _userManager.Users.Include(u => u.Address1).AsQueryable();

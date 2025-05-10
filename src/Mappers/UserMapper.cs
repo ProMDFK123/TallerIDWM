@@ -17,7 +17,7 @@ namespace TallerIDWM.src.Mappers
             {
                 UserName = dto.Email,
                 Email = dto.Email,
-                FirstName = dto.FirtsName,
+                FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 PhoneNumber = dto.Thelephone,
                 Thelephone = dto.Thelephone,
@@ -35,7 +35,7 @@ namespace TallerIDWM.src.Mappers
         public static UserDto UserToUserDto(User user) =>
             new()
             {
-                FirtsName = user.FirstName,
+                FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email ?? string.Empty,
                 Thelephone = user.PhoneNumber ?? string.Empty,
