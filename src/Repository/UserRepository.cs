@@ -60,5 +60,19 @@ namespace TallerIDWM.src.Repositories
         {
             throw new NotImplementedException();
         }
+        
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await _context.Users.ToListAsync();
+        }
+            // Aquí va la lógica para obtener todos los usuarios de la base de datos
+            return await _context.Users.ToListAsync();
+        }
+
+        public async Task<User?> GetUserById(int id)
+        {
+            // Aquí va la lógica para obtener un usuario por su ID de tu base de datos
+            return await _context.Users.FindAsync(id);
+        }
     }
 }

@@ -24,8 +24,24 @@ namespace api.src.Controllers
     {
         private readonly ILogger<UserController> _logger = logger;
         private readonly UnitOfWork _unitOfWork = unitOfWork;
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly UserMapper _userMapper = userMapper;
 
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        {
+            var users = await _userRepository.GetUsers();
+            return Ok(users);
+        }
+
+        // GET: api/User/5
+        // Obtiene un usuario por su ID
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(string id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id);
 
         // GET /user?params...
         [Authorize(Roles = "Admin")]
