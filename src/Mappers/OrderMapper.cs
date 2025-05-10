@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Ayudantia.Src.Dtos;
-using Ayudantia.Src.Models;
+using api.src.Dtos;
+using api.src.Models;
 
-namespace Ayudantia.Src.Mappers
+namespace api.src.Mappers
 {
     public static class OrderMapper
     {

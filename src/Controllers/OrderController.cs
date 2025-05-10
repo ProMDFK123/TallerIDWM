@@ -27,7 +27,7 @@ public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfW
             return BadRequest(new ApiResponse<string>(false, "No tienes una dirección registrada. Por favor, añade una dirección antes de realizar un pedido."));
 
         var basketId = Request.Cookies["basketId"];
-        if(string.IsNullOrEmpty(basketId))
+        if (string.IsNullOrEmpty(basketId))
             return BadRequest(new ApiResponse<string>(false, "No se encontró el carrito."));
 
         var basket = await _unitOfWork.BasketRepository.GetBasketAsync(basketId);
