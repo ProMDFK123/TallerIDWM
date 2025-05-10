@@ -5,6 +5,8 @@ using TallerIDWM.src.Repository;
 using api.src.Services;
 using api.src.Repository;
 using api.src.Repositories;
+using TallerIDWM.src.Interfaces;
+using TallerIDWM.src.Services;
 
 using System.Security.Claims;
 using System.Text;
