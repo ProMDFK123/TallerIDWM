@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TallerIDWM.src.Repositories;
+
 Log.Logger = new LoggerConfiguration()
 
     .CreateLogger();

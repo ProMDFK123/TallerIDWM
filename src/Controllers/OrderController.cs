@@ -52,7 +52,7 @@ public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfW
 
         await _unitOfWork.OrderRepository.CreateOrderAsync(order);
         _unitOfWork.BasketRepository.DeleteBasket(basket);
-        await _unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChanges();
 
         return Ok(new ApiResponse<OrderDto>(true, "Pedido realizado exitosamente.", OrderMapper.ToOrderDto(order)));
     }

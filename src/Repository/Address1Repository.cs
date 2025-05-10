@@ -26,6 +26,11 @@ namespace api.src.Repositories
             await _context.Address1s.AddAsync(address);
         }
 
+        public async Task<Address1> GetDefaultAddressAsync(string userId)
+        {
+            return await _context.Address1s
+                .Where(a => a.UserId == userId)
+                .FirstOrDefaultAsync(a => a.UserId == userId && a.IsDefault);
+        }
     }
-
 }
