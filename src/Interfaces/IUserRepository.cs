@@ -16,5 +16,6 @@ namespace api.src.Interfaces
         Task<IdentityResult> UpdatePasswordAsync(User user, string newPassword);
         Task<User?> GetUserWithAddressByIdAsync(string userId);
         Task<IEnumerable<User>> GetUsers();
+        Task<User?> GetUserById(int id);
     }
 }

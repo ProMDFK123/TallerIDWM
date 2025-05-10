@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TallerIDWM.src.Dtos
+namespace api.src.Dtos
 {
     public class CreateUserDtos
     {
-         [Required(ErrorMessage = "El nombre es obligatorio.")]
+        [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre debe tener al menos 3 caracteres.")]
         public required string FirtsName { get; set; }
         [Required(ErrorMessage = "El apellido es obligatorio.")]

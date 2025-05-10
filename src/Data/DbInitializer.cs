@@ -40,7 +40,7 @@ namespace api.src.Data
                 .RuleFor(p => p.Stock, f => f.Random.Int(1, 100))
                 .RuleFor(p => p.Brand, f => f.Company.CompanyName())
 
-            .Generate(10); 
+            .Generate(10);
             context.Set<Product>().AddRange(productFaker);
             context.SaveChanges();
 
@@ -61,9 +61,9 @@ namespace api.src.Data
                 })
                 .RuleFor(u => u.Thelephone, f => f.Phone.PhoneNumber())
                 .Generate(9);
-            
+
             context.Set<User>().AddRange(userFaker);
-            
+
             var specificUserFaker = new Faker<User>("es")
                 .RuleFor(u => u.FirstName, "Ignacio")
                 .RuleFor(u => u.LastName, "Mancilla")
@@ -83,7 +83,7 @@ namespace api.src.Data
             context.SaveChanges();
 
             //Faker para Address1s
-            if(context.Address1.Any()) return;
+            if (context.Address1.Any()) return;
 
             var addressFaker = new Faker<Address1>("es")
                 .RuleFor(a => a.Street, f => f.Address.FullAddress())

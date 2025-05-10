@@ -17,7 +17,7 @@ namespace TallerIDWM.src.Services
 {
     public class TokenService : ITokenServices
     {
-        private readonly IConfiguration  _config;
+        private readonly IConfiguration _config;
         private readonly SymmetricSecurityKey _key;
         public TokenService(IConfiguration config)
         {
@@ -30,7 +30,7 @@ namespace TallerIDWM.src.Services
         {
             var claims = new List<Claim>
             {
-                new (JwtRegisteredClaimNames.Email, user.Email),
+                new (JwtRegisteredClaimNames.Email, user.Email!),
                 new (JwtRegisteredClaimNames.GivenName, user.FirstName),
                 new (ClaimTypes.Role, role),
             };
