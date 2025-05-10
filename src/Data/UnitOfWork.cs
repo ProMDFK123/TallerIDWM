@@ -8,7 +8,7 @@ using Bogus.DataSets;
 
 namespace api.src.Data;
 
-public class UnitOfWork(DataContext context, IProductRepository productRepository, IUserRepository userRepository, IBasketRepository basketRepository,IAddress1Repository Address1Repository) 
+public class UnitOfWork(DataContext context, IProductRepository productRepository, IUserRepository userRepository, IBasketRepository basketRepository, IAddress1Repository Address1Repository)
 {
     private readonly DataContext _context = context;
     public IUserRepository UserRepository { get; set; } = userRepository;

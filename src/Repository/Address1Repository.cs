@@ -20,12 +20,12 @@ namespace api.src.Repositories
             return await _context.Address1s
                 .FirstOrDefaultAsync(a => a.UserId == userId);
         }
-        
+
         public async Task AddAsync(Address1 address)
         {
             await _context.Address1s.AddAsync(address);
         }
-        
+
     }
 
 }

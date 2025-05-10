@@ -33,13 +33,13 @@ public class DbInitializer
     {
         await context.Database.MigrateAsync();
 
-        if(!context.Products.Any())
+        if (!context.Products.Any())
         {
             var products = ProductSeeder.GenerateProducts(10);
             context.Products.AddRange(products);
         }
 
-        if(!context.Users.Any())
+        if (!context.Users.Any())
         {
             var users = UserSeeder.GenerateUsersDto(10);
             await UserSeeder.CreateUsers(userManager, users);

@@ -60,7 +60,7 @@ namespace TallerIDWM.src.Repositories
         {
             throw new NotImplementedException();
         }
-        
+
         public async Task<IEnumerable<User>> GetUsers()
         {
             return await _context.Users.ToListAsync();

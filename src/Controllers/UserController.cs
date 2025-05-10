@@ -16,32 +16,17 @@ using api.src.RequestHelpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using api.src.Interfaces;
 
 namespace api.src.Controllers
 {
 
-    public class UserController(ILogger<UserController> logger, UnitOfWork unitOfWork) : BaseController
+    public class UserController(ILogger<UserController> logger, UnitOfWork unitOfWork, IUserRepository userRepository) : BaseController
     {
         private readonly ILogger<UserController> _logger = logger;
         private readonly UnitOfWork _unitOfWork = unitOfWork;
         private readonly IUserRepository _userRepository = userRepository;
-        private readonly UserMapper _userMapper = userMapper;
 
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        {
-            var users = await _userRepository.GetUsers();
-            return Ok(users);
-        }
-
-        // GET: api/User/5
-        // Obtiene un usuario por su ID
-        [Authorize(Roles = "Admin")]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(string id)
-        {
-            var user = await _userRepository.GetUserByIdAsync(id);
 
         // GET /user?params...
         [Authorize(Roles = "Admin")]
@@ -174,6 +159,7 @@ namespace api.src.Controllers
 
             return Ok(new ApiResponse<string>(true, "Contraseña actualizada correctamente"));
         }
+
         [Authorize(Roles = "User")]
         [HttpGet("profile")]
         public async Task<ActionResult<ApiResponse<UserDto>>> GetProfile()
@@ -189,6 +175,7 @@ namespace api.src.Controllers
             var dto = UserMapper.UserToUserDto(user);
             return Ok(new ApiResponse<UserDto>(true, "Perfil del usuario obtenido", dto));
         }
+
         [Authorize(Roles = "User")]
         [HttpPut("address")]
         public async Task<ActionResult<ApiResponse<Address1>>> UpdateAddress1([FromBody] CreateAddres1Dto dto)
@@ -201,7 +188,7 @@ namespace api.src.Controllers
             if (address == null)
                 return NotFound(new ApiResponse<string>(false, "No tienes una dirección registrada. Usa el método POST para crear una."));
 
-           
+
             address.Street = dto.Street;
             address.Number = dto.Number;
             address.Commune = dto.Commune;
@@ -212,8 +199,5 @@ namespace api.src.Controllers
 
             return Ok(new ApiResponse<Address1>(true, "Dirección actualizada correctamente", address));
         }
-
-
-
     }
 }
