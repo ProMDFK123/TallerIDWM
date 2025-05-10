@@ -77,23 +77,13 @@ public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfW
     public async Task<ActionResult<ApiResponse<OrderDto>>> GetOrderById(int id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null)
-        {
+        if (userId is null)
             return Unauthorized(new ApiResponse<string>(false, "Usuario no autenticado"));
-        }
 
         var order = await _unitOfWork.OrderRepository.GetOrderByIdAsync(id, userId);
         if (order == null)
-        {
-            return NotFound(new ApiResponse<string>(false, "Pedido no encontrado."));
-        }
+            return NotFound(new ApiResponse<OrderDto>(false, "Pedido no encontrado"));
 
-        if (order.UserId != userId)
-        {
-            return Forbid(new ApiResponse<string>(false, "No tienes permiso para ver esta orden."));
-        }
-
-        var mapped = OrderMapper.ToOrderDto(order);
-        return Ok(new ApiResponse<OrderDto>(true, "Orden obtenida exitosamente.", mapped));
+        return Ok(new ApiResponse<OrderDto>(true, "Pedido encontrado", OrderMapper.ToOrderDto(order)));
     }
 }
