@@ -3,7 +3,7 @@ using api.src.Interfaces;
 using api.src.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace dotnet_web_api.Src.Controllers
+namespace api.src.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -7,9 +7,9 @@ namespace api.src.RequestHelpers
 {
     public class ProductParams : PaginationParams
     {
-        public string? Search { get; set; }
         public string? OrderBy { get; set; }
-        public string? Category { get; set; }
-        public string? Brand { get; set; }
+        public string? Search { get; set; }           // <-- requerida por .Search()
+        public string? Brands { get; set; }
+        public string? Categories { get; set; }
     }
 }

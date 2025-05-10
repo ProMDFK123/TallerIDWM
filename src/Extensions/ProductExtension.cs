@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using api.src.Models;
 
 namespace api.src.Extensions
 {
-    public static class ProductExtension
+    public static class ProductExtensions
     {
         public static IQueryable<Product> Filter(this IQueryable<Product> query, string? brands, string? categories)
         {
@@ -28,7 +29,6 @@ namespace api.src.Extensions
 
             return query;
         }
-
         public static IQueryable<Product> Search(this IQueryable<Product> query, string? search)
         {
             if (string.IsNullOrWhiteSpace(search)) return query;
@@ -37,17 +37,16 @@ namespace api.src.Extensions
 
             return query.Where(p => p.Name.ToLower().Contains(lowerCaseSearch));
         }
-
         public static IQueryable<Product> Sort(this IQueryable<Product> query, string? orderBy)
         {
             query = orderBy switch
             {
-                "price" => query.OrderBy(p => p.Price),
-                "priceDesc" => query.OrderByDescending(p => p.Price),
-                _ => query.OrderBy(p => p.Id)
+                "price" => query.OrderBy(p => (double)p.Price),
+                "priceDesc" => query.OrderByDescending(p => (double)p.Price),
+                _ => query.OrderBy(p => p.Name)
             };
-
             return query;
         }
+
     }
 }

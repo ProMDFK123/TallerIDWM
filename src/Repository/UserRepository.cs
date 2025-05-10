@@ -2,24 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.src.Data;
+
 using api.src.Interfaces;
 using api.src.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace TallerIDWM.Src.Repositories
+namespace TallerIDWM.src.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(UserManager<User> userManager) : IUserRepository
     {
-        private readonly UserManager<User> _userManager;
-        private readonly DataContext _context;
-
-        public UserRepository(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<User> _userManager = userManager;
         public IQueryable<User> GetUsersQueryable()
         {
             return _userManager.Users.Include(u => u.Address1).AsQueryable();
@@ -66,7 +60,7 @@ namespace TallerIDWM.Src.Repositories
         {
             throw new NotImplementedException();
         }
-
+        
         public async Task<IEnumerable<User>> GetUsers()
         {
             return await _context.Users.ToListAsync();

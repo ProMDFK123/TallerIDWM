@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using TallerIDWM.src.Repositories;
 Log.Logger = new LoggerConfiguration()
 
     .CreateLogger();
@@ -25,6 +26,7 @@ try
     builder.Services.AddScoped<IUserRepository>(); //Falta implementar IUserRepository
     builder.Services.AddScoped<IAddress1Repository>(); //Falta implementar IAddress1Repository
     builder.Services.AddScoped<UnitOfWork>();
+    builder.Services.AddScoped<IBasketRepository, BasketRepository>();
     builder.Services.AddIdentity<User, IdentityRole>(opt =>
     {
         opt.User.RequireUniqueEmail = true;
