@@ -15,5 +15,6 @@ namespace api.src.Interfaces
         Task<bool> CheckPasswordAsync(User user, string password);
         Task<IdentityResult> UpdatePasswordAsync(User user, string newPassword);
         Task<User?> GetUserWithAddressByIdAsync(string userId);
+        Task<IEnumerable<User>> GetUsers();
     }
 }

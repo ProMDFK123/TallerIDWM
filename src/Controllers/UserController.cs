@@ -23,9 +23,9 @@ namespace dotnet_web_api.Src.Controllers
         // GET: api/User/5
         // Obtiene un usuario por su ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(string id)
         {
-            var user = await _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
 
             if (user == null)
                 return NotFound();
