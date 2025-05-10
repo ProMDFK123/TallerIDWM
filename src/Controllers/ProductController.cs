@@ -2,12 +2,12 @@ using api.src.Data;
 using api.src.Interfaces;
 using api.src.Models;
 using Microsoft.AspNetCore.Mvc;
+using api.src.Helpers;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace api.src.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ProductController(IProductRepository productRepository, UnitOfWork unitOfWork) : ControllerBase
+    public class ProductController(IProductRepository productRepository, UnitOfWork unitOfWork) : BaseController
     {
         private readonly UnitOfWork _context = unitOfWork;
         private readonly IProductRepository _productRepository = productRepository;
@@ -17,7 +17,7 @@ namespace api.src.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             var products = await _productRepository.GetProducts();
-            return Ok(products);
+            return Ok(new ApiResponse<IEnumerable<Product>>(true, "Productos obtenidos correctamente", products));
         }
 
         // GET: api/Product/5
