@@ -7,5 +7,6 @@ namespace api.src.Interfaces
     {
         Task<Address1?> GetByUserIdAsync(string userId);
         Task AddAsync(Address1 address);
+        Task<Address1> GetDefaultAddressAsync(string userId);
     }
 }

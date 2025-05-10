@@ -50,5 +50,10 @@ namespace TallerIDWM.src.Repository
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
+            return await _context.Products.FindAsync(id) ?? throw new Exception("Product not found");
+        }
     }
 }

@@ -2,6 +2,10 @@ using api.src.Data;
 using api.src.Interfaces;
 using api.src.Models;
 using TallerIDWM.src.Repository;
+using api.src.Services;
+using api.src.Repository;
+using api.src.Repositories;
+using TallerIDWM.src.Services;
 
 using System.Security.Claims;
 using System.Text;
@@ -12,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TallerIDWM.src.Repositories;
+
 Log.Logger = new LoggerConfiguration()
 
     .CreateLogger();
@@ -23,10 +28,13 @@ try
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
     builder.Services.AddScoped<IProductRepository, ProductRepository>();
-    builder.Services.AddScoped<IUserRepository>(); //Falta implementar IUserRepository
-    builder.Services.AddScoped<IAddress1Repository>(); //Falta implementar IAddress1Repository
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IAddress1Repository, Address1Repository>();
     builder.Services.AddScoped<UnitOfWork>();
     builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+    builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+    builder.Services.AddScoped<IPhotoService, PhotoService>();
+    builder.Services.AddScoped<ITokenServices, TokenService>();
     builder.Services.AddIdentity<User, IdentityRole>(opt =>
     {
         opt.User.RequireUniqueEmail = true;

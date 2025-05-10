@@ -19,6 +19,8 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
 
     public required DbSet<Basket> Baskets { get; set; }
 
+    public required DbSet<Order> Orders { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
