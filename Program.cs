@@ -4,6 +4,7 @@ using api.src.Models;
 using TallerIDWM.src.Repository;
 using api.src.Services;
 using api.src.Repository;
+using api.src.Repositories;
 
 using System.Security.Claims;
 using System.Text;
@@ -30,7 +31,7 @@ try
     builder.Services.AddScoped<UnitOfWork>();
     builder.Services.AddScoped<IBasketRepository, BasketRepository>();
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-    builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
+    builder.Services.AddScoped<IPhotoService, PhotoService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddIdentity<User, IdentityRole>(opt =>
     {
