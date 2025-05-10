@@ -10,7 +10,7 @@ using TallerIDWM.src.Mappers;
 using api.src.Models;
 
 using Microsoft.AspNetCore.Mvc;
-using dotnet_web_api.Src.Controllers;
+using api.src.Controllers;
 
 namespace api.src.Controllers
 {
