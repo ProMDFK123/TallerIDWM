@@ -33,9 +33,9 @@ namespace api.Src.Controllers
         // Obtiene un usuario por su ID
         [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(string id)
         {
-            var user = await _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
 
             if (user == null)
                 return NotFound();
