@@ -10,7 +10,7 @@ namespace api.src.Dtos
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
-        public Address1 ShippingAddress { get; set; }
+        public Address1 Address { get; set; }
         public decimal Total { get; set; }
         public List<OrderItemDto> Items { get; set; } = [];
     }
