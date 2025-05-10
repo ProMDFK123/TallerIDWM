@@ -34,7 +34,7 @@ try
     builder.Services.AddScoped<IBasketRepository, BasketRepository>();
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
     builder.Services.AddScoped<IPhotoService, PhotoService>();
-    builder.Services.AddScoped<ITokenService, TokenService>();
+    builder.Services.AddScoped<ITokenServices, TokenService>();
     builder.Services.AddIdentity<User, IdentityRole>(opt =>
     {
         opt.User.RequireUniqueEmail = true;
