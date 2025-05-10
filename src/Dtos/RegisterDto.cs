@@ -10,7 +10,7 @@ namespace api.src.Dtos
     {
         [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre debe tener al menos 3 caracteres.")]
-        public required string FirtsName { get; set; }
+        public required string FirstName { get; set; }
         [Required(ErrorMessage = "El apellido es obligatorio.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El apellido debe tener al menos 3 caracteres.")]
         public required string LastName { get; set; }
