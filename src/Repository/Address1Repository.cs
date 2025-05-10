@@ -30,7 +30,7 @@ namespace api.src.Repositories
         {
             return await _context.Address1s
                 .Where(a => a.UserId == userId)
-                .FirstOrDefaultAsync(a => a.UserId == userId && a.IsDefault);
+                .FirstOrDefaultAsync(a => a.UserId == userId);
         }
     }
 }
