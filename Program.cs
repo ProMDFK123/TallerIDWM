@@ -2,6 +2,8 @@ using api.src.Data;
 using api.src.Interfaces;
 using api.src.Models;
 using TallerIDWM.src.Repository;
+using api.src.Services;
+using api.src.Repository;
 
 using System.Security.Claims;
 using System.Text;
@@ -23,10 +25,13 @@ try
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
     builder.Services.AddScoped<IProductRepository, ProductRepository>();
-    builder.Services.AddScoped<IUserRepository>(); //Falta implementar IUserRepository
-    builder.Services.AddScoped<IAddress1Repository>(); //Falta implementar IAddress1Repository
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IAddress1Repository, Address1Repository>();
     builder.Services.AddScoped<UnitOfWork>();
     builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+    builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+    builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
+    builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddIdentity<User, IdentityRole>(opt =>
     {
         opt.User.RequireUniqueEmail = true;
