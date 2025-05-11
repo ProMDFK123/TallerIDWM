@@ -10,7 +10,7 @@ namespace api.src.Mappers
 {
     public static class ProductMapper
     {
-        public static Product FromCreateDto(ProductDto dto, List<string> urls, string? publicId = null)
+        public static Product FromCreateDto(ProductDto dto, List<string> urls)
         {
             return new Product
             {
