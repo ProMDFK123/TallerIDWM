@@ -42,12 +42,15 @@ TallerIDWM/
 │   ├── src/
 │   │   ├── Controllers/
 │   │   ├── Services/
+│   │   ├── Extensions/
+│   │   ├── Helpers/
+│   │   ├── Mappers/
+│   │   ├── RequestHelpers/
 │   │   ├── Repositories/
 │   │   ├── Models/
 │   │   ├── DTOs/
 │   │   ├── Data/
-│   │   │   └──Migrations/
-│   │   ├── Interfaces/
+│   │   └── Interfaces/
 │   └── Program.cs
 ├── README.md
 └── Properties/
