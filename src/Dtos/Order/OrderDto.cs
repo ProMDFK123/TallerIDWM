@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.src.Models;
-
-namespace api.src.Dtos
+namespace TallerIDWM.Src.DTOs.Order
 {
     public class OrderDto
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
-        public Address1 Address { get; set; }
+        public required Models.ShippingAddress ShippingAddress { get; set; } // TODO: Revisar si es required o no
         public decimal Total { get; set; }
         public List<OrderItemDto> Items { get; set; } = [];
     }

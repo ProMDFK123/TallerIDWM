@@ -1,17 +1,18 @@
 using System.Security.Claims;
-using api.src.Data;
-using api.src.Dtos;
-using api.src.Helpers;
-using api.src.Mappers;
-using api.src.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TallerIDWM.Src.Data;
+using TallerIDWM.Src.DTOs.Order;
+using TallerIDWM.Src.Helpers;
+using TallerIDWM.Src.Mappers;
 
-namespace api.src.Controllers;
-public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfWork) : BaseController
+namespace TallerIDWM.Src.Controllers;
+
+public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfWork)
+    : BaseController
 {
-    private readonly ILogger<OrderController> _logger;
-    private readonly UnitOfWork _unitOfWork;
+    private readonly ILogger<OrderController> _logger = logger;
+    private readonly UnitOfWork _unitOfWork = unitOfWork;
 
     [HttpPost]
     public async Task<ActionResult<ApiResponse<OrderDto>>> CreateOrder()
@@ -22,16 +23,21 @@ public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfW
             return Unauthorized(new ApiResponse<string>(false, "Usuario no autenticado"));
         }
 
-        var address = await _unitOfWork.Address1Repository.GetDefaultAddressAsync(userId);
+        var address = await _unitOfWork.ShippingAddressRepository.GetDefaultAddressAsync(userId);
         if (address == null)
-            return BadRequest(new ApiResponse<string>(false, "No tienes una dirección registrada. Por favor, añade una dirección antes de realizar un pedido."));
+            return BadRequest(
+                new ApiResponse<string>(
+                    false,
+                    "No tienes una dirección registrada. Por favor, añade una dirección antes de realizar un pedido."
+                )
+            );
 
         var basketId = Request.Cookies["basketId"];
         if (string.IsNullOrEmpty(basketId))
             return BadRequest(new ApiResponse<string>(false, "No se encontró el carrito."));
 
         var basket = await _unitOfWork.BasketRepository.GetBasketAsync(basketId);
-        if (basket == null || !basket.Items.Any())
+        if (basket == null || basket.Items.Count == 0)
             return BadRequest(new ApiResponse<string>(false, "El carrito está vacío."));
 
         var order = OrderMapper.FromBasket(basket, userId, address.Id);
@@ -45,7 +51,12 @@ public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfW
 
                 if (product.Stock < 0)
                 {
-                    return BadRequest(new ApiResponse<string>(false, $"No hay suficiente stock para el producto {product.Name}."));
+                    return BadRequest(
+                        new ApiResponse<string>(
+                            false,
+                            $"No hay suficiente stock para el producto {product.Name}."
+                        )
+                    );
                 }
             }
         }
@@ -54,7 +65,13 @@ public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfW
         _unitOfWork.BasketRepository.DeleteBasket(basket);
         await _unitOfWork.SaveChangeAsync();
 
-        return Ok(new ApiResponse<OrderDto>(true, "Pedido realizado exitosamente.", OrderMapper.ToOrderDto(order)));
+        return Ok(
+            new ApiResponse<OrderDto>(
+                true,
+                "Pedido realizado exitosamente.",
+                OrderMapper.ToOrderDto(order)
+            )
+        );
     }
 
     [Authorize(Roles = "Admin")]
@@ -68,9 +85,15 @@ public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfW
         }
 
         var orders = await _unitOfWork.OrderRepository.GetOrdersByUserIdAsync(userId);
-        var mapped = orders.Select(OrderMapper.ToSummaryDto).ToList();
+        List<OrderSummaryDto> mapped = orders.Select(OrderMapper.ToSummaryDto).ToList();
 
-        return Ok(new ApiResponse<IEnumerable<OrderSummaryDto>>(true, "Órdenes obtenidas exitosamente.", mapped));
+        return Ok(
+            new ApiResponse<IEnumerable<OrderSummaryDto>>(
+                true,
+                "Órdenes obtenidas exitosamente.",
+                mapped
+            )
+        );
     }
 
     [HttpGet("{id}")]
@@ -84,6 +107,8 @@ public class OrderController(ILogger<OrderController> logger, UnitOfWork unitOfW
         if (order == null)
             return NotFound(new ApiResponse<OrderDto>(false, "Pedido no encontrado"));
 
-        return Ok(new ApiResponse<OrderDto>(true, "Pedido encontrado", OrderMapper.ToOrderDto(order)));
+        return Ok(
+            new ApiResponse<OrderDto>(true, "Pedido encontrado", OrderMapper.ToOrderDto(order))
+        );
     }
 }

@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TallerIDWM.Src.DTOs.Auth;
+using TallerIDWM.Src.DTOs.User;
+using TallerIDWM.Src.Models;
 
-using api.src.Dtos;
-using api.src.Dtos.User;
-using api.src.Models;
-
-namespace TallerIDWM.src.Mappers
+namespace TallerIDWM.Src.Mappers
 {
     public class UserMapper
     {
-
         public static User RegisterToUser(RegisterDto dto) =>
             new()
             {
@@ -20,18 +14,19 @@ namespace TallerIDWM.src.Mappers
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 PhoneNumber = dto.Thelephone,
-                Thelephone = dto.Thelephone,
+                Telephone = dto.Thelephone,
                 RegisteredAt = DateTime.UtcNow,
                 IsActive = true,
-                Address1 = new Address1
+                ShippingAddress = new ShippingAddress
                 {
                     Street = dto.Street ?? string.Empty,
                     Number = dto.Number ?? string.Empty,
                     Commune = dto.Commune ?? string.Empty,
                     Region = dto.Region ?? string.Empty,
-                    PostalCode = dto.PostalCode ?? string.Empty
-                }
+                    PostalCode = dto.PostalCode ?? string.Empty,
+                },
             };
+
         public static UserDto UserToUserDto(User user) =>
             new()
             {
@@ -39,15 +34,16 @@ namespace TallerIDWM.src.Mappers
                 LastName = user.LastName,
                 Email = user.Email ?? string.Empty,
                 Thelephone = user.PhoneNumber ?? string.Empty,
-                Street = user.Address1?.Street,
-                Number = user.Address1?.Number,
-                Commune = user.Address1?.Commune,
-                Region = user.Address1?.Region,
-                PostalCode = user.Address1?.PostalCode,
+                Street = user.ShippingAddress?.Street,
+                Number = user.ShippingAddress?.Number,
+                Commune = user.ShippingAddress?.Commune,
+                Region = user.ShippingAddress?.Region,
+                PostalCode = user.ShippingAddress?.PostalCode,
                 RegisteredAt = user.RegisteredAt,
                 LastAccess = user.LastAccess,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
             };
+
         public static AuthenticatedUserDto UserToAuthenticatedDto(User user, string token) =>
             new()
             {
@@ -56,20 +52,21 @@ namespace TallerIDWM.src.Mappers
                 Email = user.Email ?? string.Empty,
                 Thelephone = user.PhoneNumber ?? string.Empty,
                 Token = token,
-                Street = user.Address1?.Street,
-                Number = user.Address1?.Number,
-                Commune = user.Address1?.Commune,
-                Region = user.Address1?.Region,
-                PostalCode = user.Address1?.PostalCode,
+                Street = user.ShippingAddress?.Street,
+                Number = user.ShippingAddress?.Number,
+                Commune = user.ShippingAddress?.Commune,
+                Region = user.ShippingAddress?.Region,
+                PostalCode = user.ShippingAddress?.PostalCode,
                 RegisteredAt = user.RegisteredAt,
                 LastAccess = user.LastAccess,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
             };
+
         public static void UpdateUserFromDto(User user, UpdateProfileDto dto)
         {
             user.FirstName = dto.FirtsName;
             user.LastName = dto.LastName;
-            user.Thelephone = dto.Phone ?? string.Empty;
+            user.Telephone = dto.Phone ?? string.Empty;
         }
     }
 }

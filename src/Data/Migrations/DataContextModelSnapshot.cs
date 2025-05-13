@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using api.src.Data;
+using TallerIDWM.Src.Data;
 
 #nullable disable
 
-namespace api.src.Data.Migrations
+namespace TallerIDWM.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -159,44 +159,6 @@ namespace api.src.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("api.src.Models.Address1", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Commune")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Region")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Address1s");
-                });
-
             modelBuilder.Entity("api.src.Models.Basket", b =>
                 {
                     b.Property<int>("Id")
@@ -337,6 +299,44 @@ namespace api.src.Data.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("api.src.Models.ShippingAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Commune")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Region")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ShippingAddresses");
+                });
+
             modelBuilder.Entity("api.src.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -387,10 +387,6 @@ namespace api.src.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
 
@@ -406,7 +402,7 @@ namespace api.src.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Thelephone")
+                    b.Property<string>("Telephone")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -480,17 +476,6 @@ namespace api.src.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("api.src.Models.Address1", b =>
-                {
-                    b.HasOne("api.src.Models.User", "User")
-                        .WithOne("Address1")
-                        .HasForeignKey("api.src.Models.Address1", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("api.src.Models.BasketItem", b =>
                 {
                     b.HasOne("api.src.Models.Basket", "Basket")
@@ -512,7 +497,7 @@ namespace api.src.Data.Migrations
 
             modelBuilder.Entity("api.src.Models.Order", b =>
                 {
-                    b.HasOne("api.src.Models.Address1", "ShippingAddress")
+                    b.HasOne("api.src.Models.ShippingAddress", "ShippingAddress")
                         .WithMany()
                         .HasForeignKey("ShippingAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -540,6 +525,17 @@ namespace api.src.Data.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("api.src.Models.ShippingAddress", b =>
+                {
+                    b.HasOne("api.src.Models.User", "User")
+                        .WithOne("ShippingAddress")
+                        .HasForeignKey("api.src.Models.ShippingAddress", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("api.src.Models.Basket", b =>
                 {
                     b.Navigation("Items");
@@ -552,7 +548,7 @@ namespace api.src.Data.Migrations
 
             modelBuilder.Entity("api.src.Models.User", b =>
                 {
-                    b.Navigation("Address1");
+                    b.Navigation("ShippingAddress");
                 });
 #pragma warning restore 612, 618
         }

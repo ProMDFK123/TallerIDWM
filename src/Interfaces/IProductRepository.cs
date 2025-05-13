@@ -1,10 +1,10 @@
-using api.src.Models;
+using TallerIDWM.Src.Models;
 
-namespace api.src.Interfaces
+namespace TallerIDWM.Src.Interfaces
 {
     public interface IProductRepository
     {
-        Task<Product> GetProductById(int id);
+        Task<Product?> GetProductById(int id);
         Task<IEnumerable<Product>> GetProducts();
         Task<Product> AddProduct(Product product);
         Task<Product> UpdateProduct(Product product);

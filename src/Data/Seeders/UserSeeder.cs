@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.src.Dtos;
-using TallerIDWM.src.Mappers;
-using api.src.Models;
 using Bogus;
 using Microsoft.AspNetCore.Identity;
+using TallerIDWM.Src.DTOs.Auth;
+using TallerIDWM.Src.Mappers;
+using TallerIDWM.Src.Models;
 
-namespace api.src.Data.Seeders
+namespace TallerIDWM.Src.Data.Seeders
 {
     public class UserSeeder
     {
@@ -33,7 +29,10 @@ namespace api.src.Data.Seeders
             return users;
         }
 
-        public static async Task CreateUsers(UserManager<User> userManager, List<RegisterDto> userDtos)
+        public static async Task CreateUsers(
+            UserManager<User> userManager,
+            List<RegisterDto> userDtos
+        )
         {
             var admin = new User
             {
@@ -41,17 +40,17 @@ namespace api.src.Data.Seeders
                 Email = "ignacio.mancilla@gmail.com",
                 FirstName = "Ignacio",
                 LastName = "Mancilla",
-                Thelephone = "999999999",
+                Telephone = "999999999",
                 RegisteredAt = DateTime.UtcNow,
                 IsActive = true,
-                Address1 = new Address1
+                ShippingAddress = new ShippingAddress
                 {
                     Street = "Central",
                     Number = "1000",
                     Commune = "Santiago",
                     Region = "RM",
-                    PostalCode = "0000000"
-                }
+                    PostalCode = "0000000",
+                },
             };
 
             var existingAdmin = await userManager.FindByEmailAsync(admin.Email);
@@ -65,12 +64,13 @@ namespace api.src.Data.Seeders
                 }
                 else
                 {
-                    throw new Exception($"Error creating required admin: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                    throw new Exception(
+                        $"Error creating required admin: {string.Join(", ", result.Errors.Select(e => e.Description))}"
+                    );
                 }
             }
             foreach (var userDto in userDtos)
             {
-
                 var user = UserMapper.RegisterToUser(userDto);
                 user.UserName = userDto.Email;
                 user.Email = userDto.Email;
@@ -83,7 +83,9 @@ namespace api.src.Data.Seeders
                 }
                 else
                 {
-                    throw new Exception($"Error creating user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                    throw new Exception(
+                        $"Error creating user: {string.Join(", ", result.Errors.Select(e => e.Description))}"
+                    );
                 }
             }
         }

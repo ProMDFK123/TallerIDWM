@@ -1,23 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.src.Data;
-using api.src.Interfaces;
-using api.src.Models;
+using TallerIDWM.Src.Data;
+using TallerIDWM.Src.Interfaces;
+using TallerIDWM.Src.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace TallerIDWM.src.Repository
+namespace TallerIDWM.Src.Repository
 {
     public class ProductRepository : IProductRepository
     {
         private readonly DataContext _context;
+
         public ProductRepository(DataContext context)
         {
             _context = context;
         }
 
-        public async Task<Product> GetProductById(int id)
+        public async Task<Product?> GetProductById(int id)
         {
             return await _context.Products.FindAsync(id);
         }
@@ -53,7 +50,8 @@ namespace TallerIDWM.src.Repository
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _context.Products.FindAsync(id) ?? throw new Exception("Product not found");
+            return await _context.Products.FindAsync(id)
+                ?? throw new Exception("Product not found");
         }
     }
 }

@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.src.Models;
 using Bogus;
+using TallerIDWM.Src.Models;
 
-namespace api.src.Data.Seeders
+namespace TallerIDWM.Src.Data.Seeders
 {
     public class ProductSeeder
     {
@@ -20,12 +16,16 @@ namespace api.src.Data.Seeders
                 .RuleFor(p => p.Price, f => f.Random.Decimal(5000, 50000))
                 .RuleFor(p => p.Brand, f => f.Company.CompanyName())
                 .RuleFor(p => p.Stock, f => f.Random.Int(10, 200))
-                .RuleFor(p => p.Urls, (f, p) => new[]
-                {
-                    $"https://res.cloudinary.com/demo/image/upload/sample1.jpg",
-                    $"https://res.cloudinary.com/demo/image/upload/sample2.jpg",
-                    $"https://res.cloudinary.com/demo/image/upload/sample3.jpg"
-                })
+                .RuleFor(
+                    p => p.Urls,
+                    (f, p) =>
+
+                        [
+                            $"https://res.cloudinary.com/demo/image/upload/sample1.jpg",
+                            $"https://res.cloudinary.com/demo/image/upload/sample2.jpg",
+                            $"https://res.cloudinary.com/demo/image/upload/sample3.jpg",
+                        ]
+                )
                 .Generate(count);
 
             return products;

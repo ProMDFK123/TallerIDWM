@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace api.src.Models
+namespace TallerIDWM.Src.Models
 {
     public class Product
     {
@@ -12,9 +7,7 @@ namespace api.src.Models
         public required string Description { get; set; }
         public decimal Price { get; set; }
         public required string Category { get; set; }
-
         public string[]? Urls { get; set; }
-
         public int Stock { get; set; }
         public required string Brand { get; set; }
     }

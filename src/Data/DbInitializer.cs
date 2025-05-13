@@ -1,32 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-
-using api.src.Dtos;
-using TallerIDWM.src.Mappers;
-using api.src.Models;
-
-using Bogus;
-
+using TallerIDWM.Src.Data.Seeders;
+using TallerIDWM.Src.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using api.src.Data.Seeders;
 
-namespace api.src.Data;
+namespace TallerIDWM.Src.Data;
 
 public class DbInitializer
 {
-    public static async Task InitDb(WebApplication app)
+    public static async Task InitDbAsync(WebApplication app)
     {
         using var scope = app.Services.CreateScope();
 
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>()
+        var userManager =
+            scope.ServiceProvider.GetRequiredService<UserManager<User>>()
             ?? throw new InvalidOperationException("Could not get UserManager");
 
-        var context = scope.ServiceProvider.GetRequiredService<DataContext>()
+        var context =
+            scope.ServiceProvider.GetRequiredService<DataContext>()
             ?? throw new InvalidOperationException("Could not get StoreContext");
+
+        await SeedData(context, userManager);
     }
 
     private static async Task SeedData(DataContext context, UserManager<User> userManager)
