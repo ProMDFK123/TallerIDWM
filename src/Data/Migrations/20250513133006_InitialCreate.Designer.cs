@@ -11,8 +11,8 @@ using api.src.Data;
 namespace api.src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250510195202_secondMigration")]
-    partial class secondMigration
+    [Migration("20250513133006_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -388,10 +388,6 @@ namespace api.src.Data.Migrations
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")

@@ -27,6 +27,8 @@ public class DbInitializer
 
         var context = scope.ServiceProvider.GetRequiredService<DataContext>()
             ?? throw new InvalidOperationException("Could not get StoreContext");
+
+        await SeedData(context, userManager);
     }
 
     private static async Task SeedData(DataContext context, UserManager<User> userManager)

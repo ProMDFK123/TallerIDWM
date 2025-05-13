@@ -19,7 +19,7 @@ namespace api.src.Data.Seeders
             var users = new Faker<RegisterDto>()
                 .RuleFor(u => u.FirstName, f => f.Person.FirstName)
                 .RuleFor(u => u.Email, f => f.Internet.Email())
-                .RuleFor(u => u.Password, f => "User" + f.Random.Number(1000, 9999).ToString())
+                .RuleFor(u => u.Password, f => "Contraseña.123")
                 .RuleFor(u => u.LastName, f => f.Person.LastName)
                 .RuleFor(u => u.Thelephone, f => f.Phone.PhoneNumber())
                 .RuleFor(u => u.ConfirmPassword, (f, u) => u.Password)
