@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TallerIDWM.Src.Models;
 
-using api.src.Models;
-
-namespace api.src.Interfaces
+namespace TallerIDWM.Src.Interfaces
 {
     public interface IBasketRepository
     {
@@ -13,6 +8,5 @@ namespace api.src.Interfaces
         Basket CreateBasket(string basketId);
         void UpdateBasket(Basket basket);
         void DeleteBasket(Basket basket);
-
     }
 }

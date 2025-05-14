@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TallerIDWM.Src.DTOs.Order;
+using TallerIDWM.Src.Models;
 
-using api.src.Dtos;
-using api.src.Models;
-
-namespace api.src.Mappers
+namespace TallerIDWM.Src.Mappers
 {
     public static class OrderMapper
     {
@@ -17,13 +12,16 @@ namespace api.src.Mappers
                 UserId = userId,
                 ShippingAddressId = shippingAddressId,
                 Total = basket.Items.Sum(i => i.Quantity * i.Product.Price),
-                Items = basket.Items.Select(i => new OrderItem
-                {
-                    ProductId = i.Product.Id,
-                    ProductName = i.Product.Name,
-                    Quantity = i.Quantity,
-                    Price = i.Product.Price
-                }).ToList()
+                Items =
+                [
+                    .. basket.Items.Select(i => new OrderItem
+                    {
+                        ProductId = i.Product.Id,
+                        ProductName = i.Product.Name,
+                        Quantity = i.Quantity,
+                        Price = i.Product.Price,
+                    }),
+                ],
             };
         }
 
@@ -33,16 +31,19 @@ namespace api.src.Mappers
             {
                 Id = order.Id,
                 CreatedAt = order.OrderDate,
-                Address = order.ShippingAddress,
+                ShippingAddress = order.ShippingAddress,
                 Total = (int)Math.Floor(order.Total),
-                Items = order.Items.Select(i => new OrderItemDto
-                {
-                    ProductId = i.ProductId,
-                    Name = i.ProductName,
-                    Quantity = i.Quantity,
-                    Price = (int)Math.Floor(i.Price),
-                    ImageUrl = "" // Puedes ajustar si decides guardar o mapear imágenes
-                }).ToList()
+                Items =
+                [
+                    .. order.Items.Select(i => new OrderItemDto
+                    {
+                        ProductId = i.ProductId,
+                        Name = i.ProductName,
+                        Quantity = i.Quantity,
+                        Price = (int)Math.Floor(i.Price),
+                        ImageUrl = "", // Puedes ajustar si decides guardar o mapear imágenes
+                    }),
+                ],
             };
         }
 
@@ -52,7 +53,7 @@ namespace api.src.Mappers
             {
                 Id = order.Id,
                 CreatedAt = order.OrderDate,
-                Total = (int)Math.Floor(order.Total)
+                Total = (int)Math.Floor(order.Total),
             };
         }
     }

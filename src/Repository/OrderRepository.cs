@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using api.src.Models;
-using api.src.Data;
-using api.src.Interfaces;
+using TallerIDWM.Src.Data;
+using TallerIDWM.Src.Interfaces;
+using TallerIDWM.Src.Models;
 
-namespace api.src.Repository
+namespace TallerIDWM.Src.Repository
 {
     public class OrderRepository(DataContext context) : IOrderRepository
     {
@@ -20,8 +16,8 @@ namespace api.src.Repository
 
         public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
         {
-            return await _context.Orders
-                .Include(o => o.Items)
+            return await _context
+                .Orders.Include(o => o.Items)
                 .Where(o => o.UserId == userId)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
@@ -29,15 +25,15 @@ namespace api.src.Repository
 
         public async Task<Order?> GetOrderByIdAsync(int orderId, string userId)
         {
-            return await _context.Orders
-                .Include(o => o.Items)
+            return await _context
+                .Orders.Include(o => o.Items)
                 .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
         }
 
         public async Task<List<Order>> GetAllOrdersAsync()
         {
-            return await _context.Orders
-                .Include(o => o.Items)
+            return await _context
+                .Orders.Include(o => o.Items)
                 .Include(o => o.User)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();

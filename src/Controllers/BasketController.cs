@@ -1,23 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using api.src.Data;
-using api.src.Dtos;
-using api.src.Helpers;
-using TallerIDWM.src.Mappers;
-using api.src.Models;
-
 using Microsoft.AspNetCore.Mvc;
-using api.src.Controllers;
+using TallerIDWM.Src.Data;
+using TallerIDWM.Src.DTOs.Basket;
+using TallerIDWM.Src.Helpers;
+using TallerIDWM.Src.Mappers;
+using TallerIDWM.Src.Models;
 
-namespace api.src.Controllers
+namespace TallerIDWM.Src.Controllers
 {
-    public class BasketController(ILogger<ProductController> logger, UnitOfWork unitOfWork) : BaseController
+    public class BasketController(ILogger<ProductController> logger, UnitOfWork unitOfWork)
+        : BaseController
     {
         private readonly ILogger<ProductController> _logger = logger;
         private readonly UnitOfWork _unitOfWork = unitOfWork;
+
         [HttpGet]
         public async Task<ActionResult<ApiResponse<BasketDto>>> GetBasket()
         {
@@ -25,17 +20,22 @@ namespace api.src.Controllers
             if (basket == null)
                 return NoContent();
 
-            return Ok(new ApiResponse<BasketDto>(
-                true,
-                "Carrito obtenido correctamente",
-                basket.ToDto()
-            ));
+            return Ok(
+                new ApiResponse<BasketDto>(true, "Carrito obtenido correctamente", basket.ToDto())
+            );
         }
 
         [HttpPost]
-        public async Task<ActionResult<ApiResponse<BasketDto>>> AddItemToBasket(int productId, int quantity)
+        public async Task<ActionResult<ApiResponse<BasketDto>>> AddItemToBasket(
+            int productId,
+            int quantity
+        )
         {
-            _logger.LogWarning("Entrando a AddItemToBasket con productId: {ProductId}, quantity: {Quantity}", productId, quantity);
+            _logger.LogWarning(
+                "Entrando a AddItemToBasket con productId: {ProductId}, quantity: {Quantity}",
+                productId,
+                quantity
+            );
 
             var basket = await RetrieveBasket();
 
@@ -50,10 +50,20 @@ namespace api.src.Controllers
                 return BadRequest(new ApiResponse<string>(false, "Producto no encontrado"));
 
             if (product.Stock == 0)
-                return BadRequest(new ApiResponse<string>(false, $"El producto '{product.Name}' no tiene stock disponible."));
+                return BadRequest(
+                    new ApiResponse<string>(
+                        false,
+                        $"El producto '{product.Name}' no tiene stock disponible."
+                    )
+                );
 
             if (product.Stock < quantity)
-                return BadRequest(new ApiResponse<string>(false, $"Solo hay {product.Stock} unidades disponibles de '{product.Name}'"));
+                return BadRequest(
+                    new ApiResponse<string>(
+                        false,
+                        $"Solo hay {product.Stock} unidades disponibles de '{product.Name}'"
+                    )
+                );
 
             basket.AddItem(product, quantity);
 
@@ -61,13 +71,20 @@ namespace api.src.Controllers
             var success = changes > 0;
 
             return success
-                ? CreatedAtAction(nameof(GetBasket), new ApiResponse<BasketDto>(true, "Producto añadido al carrito", basket.ToDto()))
-                : BadRequest(new ApiResponse<string>(false, "Ocurrió un problema al actualizar el carrito"));
+                ? CreatedAtAction(
+                    nameof(GetBasket),
+                    new ApiResponse<BasketDto>(true, "Producto añadido al carrito", basket.ToDto())
+                )
+                : BadRequest(
+                    new ApiResponse<string>(false, "Ocurrió un problema al actualizar el carrito")
+                );
         }
 
-
         [HttpDelete]
-        public async Task<ActionResult<ApiResponse<BasketDto>>> RemoveItemFromBasket(int productId, int quantity)
+        public async Task<ActionResult<ApiResponse<BasketDto>>> RemoveItemFromBasket(
+            int productId,
+            int quantity
+        )
         {
             var basket = await RetrieveBasket();
             if (basket == null)
@@ -78,11 +95,13 @@ namespace api.src.Controllers
             var success = await _unitOfWork.SaveChangeAsync() > 0;
 
             return success
-                ? Ok(new ApiResponse<BasketDto>(
-                    true,
-                    "Producto eliminado del carrito",
-                    basket.ToDto()
-                ))
+                ? Ok(
+                    new ApiResponse<BasketDto>(
+                        true,
+                        "Producto eliminado del carrito",
+                        basket.ToDto()
+                    )
+                )
                 : BadRequest(new ApiResponse<string>(false, "Error al actualizar el carrito"));
         }
 

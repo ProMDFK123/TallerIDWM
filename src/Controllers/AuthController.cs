@@ -1,24 +1,23 @@
-
-using api.src.Data;
-using api.src.Dtos;
-using api.src.Helpers;
-using api.src.Interfaces;
-using TallerIDWM.src.Mappers;
-using api.src.Models;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TallerIDWM.Src.DTOs.Auth;
+using TallerIDWM.Src.Helpers;
+using TallerIDWM.Src.Interfaces;
+using TallerIDWM.Src.Mappers;
+using TallerIDWM.Src.Models;
 
-
-namespace api.src.Controllers
+namespace TallerIDWM.Src.Controllers
 {
-
-    public class AuthController(ILogger<AuthController> logger, UserManager<User> userManager, ITokenServices tokenService) : BaseController
+    public class AuthController(
+        ILogger<AuthController> logger,
+        UserManager<User> userManager,
+        ITokenService tokenService
+    ) : BaseController
     {
         private readonly ILogger<AuthController> _logger = logger;
         private readonly UserManager<User> _userManager = userManager;
 
-        private readonly ITokenServices _tokenService = tokenService;
+        private readonly ITokenService _tokenService = tokenService;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto newUser)
@@ -26,25 +25,59 @@ namespace api.src.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest(new ApiResponse<string>(false, "Datos inválidos", null, ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()));
+                    return BadRequest(
+                        new ApiResponse<string>(
+                            false,
+                            "Datos inválidos",
+                            null,
+                            [
+                                .. ModelState
+                                    .Values.SelectMany(v => v.Errors)
+                                    .Select(e => e.ErrorMessage),
+                            ]
+                        )
+                    );
 
                 var user = UserMapper.RegisterToUser(newUser);
-                if (string.IsNullOrEmpty(newUser.Password) || string.IsNullOrEmpty(newUser.ConfirmPassword))
+                if (
+                    string.IsNullOrEmpty(newUser.Password)
+                    || string.IsNullOrEmpty(newUser.ConfirmPassword)
+                )
                 {
-                    return BadRequest(new ApiResponse<string>(false, "La contraseña y la confirmación son requeridas"));
+                    return BadRequest(
+                        new ApiResponse<string>(
+                            false,
+                            "La contraseña y la confirmación son requeridas"
+                        )
+                    );
                 }
 
                 var createUser = await _userManager.CreateAsync(user, newUser.Password);
 
                 if (!createUser.Succeeded)
                 {
-                    return BadRequest(new ApiResponse<string>(false, "Error al crear el usuario", null, createUser.Errors.Select(e => e.Description).ToList()));
+                    return BadRequest(
+                        new ApiResponse<string>(
+                            false,
+                            "Error al crear el usuario",
+                            null,
+                            [.. createUser.Errors.Select(e => e.Description)]
+                        )
+                    );
                 }
 
                 var roleUser = await _userManager.AddToRoleAsync(user, "User");
                 if (!roleUser.Succeeded)
                 {
-                    return StatusCode(500, new ApiResponse<string>(false, "Error al asignar el rol", null, roleUser.Errors.Select(e => e.Description).ToList()));
+                    return StatusCode(
+                        500,
+                        new ApiResponse<string>(
+                            false,
+                            "Error al asignar el rol",
+                            null,
+                            [.. roleUser.Errors.Select(e => e.Description)]
+                        )
+                    );
                 }
 
                 var role = await _userManager.GetRolesAsync(user);
@@ -53,11 +86,25 @@ namespace api.src.Controllers
                 var token = _tokenService.GenerateToken(user, roleName);
                 var userDto = UserMapper.UserToAuthenticatedDto(user, token);
 
-                return Ok(new ApiResponse<AuthenticatedUserDto>(true, "Usuario registrado exitosamente", userDto));
+                return Ok(
+                    new ApiResponse<AuthenticatedUserDto>(
+                        true,
+                        "Usuario registrado exitosamente",
+                        userDto
+                    )
+                );
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ApiResponse<string>(false, "Error interno del servidor", null, new List<string> { ex.Message }));
+                return StatusCode(
+                    500,
+                    new ApiResponse<string>(
+                        false,
+                        "Error interno del servidor",
+                        null,
+                        new List<string> { ex.Message }
+                    )
+                );
             }
         }
 
@@ -67,23 +114,43 @@ namespace api.src.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest(new ApiResponse<string>(false, "Datos inválidos", null, ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()));
+                    return BadRequest(
+                        new ApiResponse<string>(
+                            false,
+                            "Datos inválidos",
+                            null,
+                            [
+                                .. ModelState
+                                    .Values.SelectMany(v => v.Errors)
+                                    .Select(e => e.ErrorMessage),
+                            ]
+                        )
+                    );
 
                 var user = await _userManager.FindByEmailAsync(loginDto.Email);
                 if (user == null)
                 {
-                    return Unauthorized(new ApiResponse<string>(false, "Correo o contraseña inválidos"));
+                    return Unauthorized(
+                        new ApiResponse<string>(false, "Correo o contraseña inválidos")
+                    );
                 }
 
                 if (!user.IsActive)
                 {
-                    return Unauthorized(new ApiResponse<string>(false, "Tu cuenta está deshabilitada. Contacta al administrador."));
+                    return Unauthorized(
+                        new ApiResponse<string>(
+                            false,
+                            "Tu cuenta está deshabilitada. Contacta al administrador."
+                        )
+                    );
                 }
 
                 var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
                 if (!result)
                 {
-                    return Unauthorized(new ApiResponse<string>(false, "Correo o contraseña inválidos"));
+                    return Unauthorized(
+                        new ApiResponse<string>(false, "Correo o contraseña inválidos")
+                    );
                 }
 
                 // Opcional: registrar último acceso
@@ -100,9 +167,16 @@ namespace api.src.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ApiResponse<string>(false, "Error interno del servidor", null, new List<string> { ex.Message }));
+                return StatusCode(
+                    500,
+                    new ApiResponse<string>(
+                        false,
+                        "Error interno del servidor",
+                        null,
+                        new List<string> { ex.Message }
+                    )
+                );
             }
         }
-
     }
 }

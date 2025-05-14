@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace api.src.Models
+namespace TallerIDWM.Src.Models
 {
     public class Basket
     {
@@ -14,34 +9,31 @@ namespace api.src.Models
 
         public void AddItem(Product product, int quantity)
         {
-            if (product == null) ArgumentNullException.ThrowIfNull(product);
-            if (quantity <= 0) throw new ArgumentException("Quantity must be greater than 0 "
-                , nameof(quantity));
+            if (product == null)
+                ArgumentNullException.ThrowIfNull(product);
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity must be greater than 0 ", nameof(quantity));
 
             var existingItem = FindItem(product.Id);
 
             if (existingItem == null)
             {
-                Items.Add(new BasketItem
-                {
-                    Quantity = quantity,
-                    Product = product
-                });
+                Items.Add(new BasketItem { Quantity = quantity, Product = product });
             }
             else
             {
                 existingItem.Quantity += quantity;
             }
-
         }
+
         public void RemoveItem(int productId, int quantity)
         {
-
-            if (quantity <= 0) throw new ArgumentException("Quantity must be greater than 0 "
-                , nameof(quantity));
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity must be greater than 0 ", nameof(quantity));
             var item = FindItem(productId);
 
-            if (item == null) return;
+            if (item == null)
+                return;
 
             item.Quantity -= quantity;
 
@@ -49,7 +41,6 @@ namespace api.src.Models
             {
                 Items.Remove(item);
             }
-
         }
 
         private BasketItem? FindItem(int productId)

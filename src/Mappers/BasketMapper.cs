@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TallerIDWM.Src.DTOs.Basket;
+using TallerIDWM.Src.Models;
 
-using api.src.Dtos;
-using api.src.Models;
-
-namespace TallerIDWM.src.Mappers
+namespace TallerIDWM.Src.Mappers
 {
     public static class BasketMapper
     {
@@ -15,16 +10,19 @@ namespace TallerIDWM.src.Mappers
             return new BasketDto
             {
                 BasketId = basket.BasketId,
-                Items = [.. basket.Items.Select(x => new BasketItemDto
-                {
-                    ProductId = x.ProductId,
-                    Name = x.Product.Name,
-                    Price = x.Product.Price,
-                    PictureUrl = x.Product.Urls?.FirstOrDefault() ?? string.Empty,
-                    Brand = x.Product.Brand,
-                    Category = x.Product.Category,
-                    Quantity = x.Quantity
-                })]
+                Items =
+                [
+                    .. basket.Items.Select(x => new BasketItemDto
+                    {
+                        ProductId = x.ProductId,
+                        Name = x.Product.Name,
+                        Price = x.Product.Price,
+                        PictureUrl = x.Product.Urls?.FirstOrDefault() ?? string.Empty,
+                        Brand = x.Product.Brand,
+                        Category = x.Product.Category,
+                        Quantity = x.Quantity,
+                    }),
+                ],
             };
         }
     }

@@ -1,23 +1,28 @@
-using api.src.Data;
-using api.src.Interfaces;
-using api.src.Models;
 using Microsoft.AspNetCore.Mvc;
-using api.src.Helpers;
-using Microsoft.AspNetCore.Http.HttpResults;
+using TallerIDWM.Src.Data;
+using TallerIDWM.Src.Helpers;
+using TallerIDWM.Src.Interfaces;
+using TallerIDWM.Src.Models;
 
-namespace api.src.Controllers
+namespace TallerIDWM.Src.Controllers
 {
-    public class ProductController(IProductRepository productRepository, UnitOfWork unitOfWork) : BaseController
+    public class ProductController(IProductRepository productRepository, UnitOfWork unitOfWork)
+        : BaseController
     {
         private readonly UnitOfWork _context = unitOfWork;
         private readonly IProductRepository _productRepository = productRepository;
-
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             var products = await _productRepository.GetProducts();
-            return Ok(new ApiResponse<IEnumerable<Product>>(true, "Productos obtenidos correctamente", products));
+            return Ok(
+                new ApiResponse<IEnumerable<Product>>(
+                    true,
+                    "Productos obtenidos correctamente",
+                    products
+                )
+            );
         }
 
         // GET: api/Product/5

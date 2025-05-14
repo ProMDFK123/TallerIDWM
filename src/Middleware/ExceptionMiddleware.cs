@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Mvc;
 
-namespace TallerIDWM.Middleware
+namespace TallerIDWM.Src.Middleware
 {
-    public class ExceptionMIddleware(IHostEnvironment env, ILogger<ExceptionMIddleware> logger) : IMiddleware
+    public class ExceptionMiddleware(IHostEnvironment env, ILogger<ExceptionMiddleware> logger)
+        : IMiddleware
     {
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
@@ -32,14 +28,14 @@ namespace TallerIDWM.Middleware
             var response = new ProblemDetails
             {
                 Status = 500,
-                Detail = env.IsDevelopment()
-                    ? ex.StackTrace?.ToString()
-                    : null,
+                Detail = env.IsDevelopment() ? ex.StackTrace?.ToString() : null,
                 Title = ex.Message,
             };
 
             var options = new JsonSerializerOptions
-            { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
 
             var json = JsonSerializer.Serialize(response, options);
 

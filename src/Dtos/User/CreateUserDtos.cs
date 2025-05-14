@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TallerIDWM.Src.DTOs.Auth
+namespace TallerIDWM.Src.DTOs.User
 {
-    public class RegisterDto
+    public class CreateUserDtos
     {
         [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(
@@ -10,7 +10,7 @@ namespace TallerIDWM.Src.DTOs.Auth
             MinimumLength = 3,
             ErrorMessage = "El nombre debe tener al menos 3 caracteres."
         )]
-        public required string FirstName { get; set; }
+        public required string FirtsName { get; set; }
 
         [Required(ErrorMessage = "El apellido es obligatorio.")]
         [StringLength(

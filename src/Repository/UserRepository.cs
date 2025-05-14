@@ -1,38 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using api.src.Interfaces;
-using api.src.Models;
-using api.src.Data;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TallerIDWM.Src.Data;
+using TallerIDWM.Src.Interfaces;
+using TallerIDWM.Src.Models;
 
-namespace TallerIDWM.src.Repositories
+namespace TallerIDWM.Src.Repositories
 {
-    public class UserRepository(UserManager<User> userManager, DataContext context) : IUserRepository
+    public class UserRepository(UserManager<User> userManager, DataContext context)
+        : IUserRepository
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly DataContext _context = context;
 
         public IQueryable<User> GetUsersQueryable()
         {
-            return _userManager.Users.Include(u => u.Address1).AsQueryable();
+            return _userManager.Users.Include(u => u.ShippingAddress).AsQueryable();
         }
 
         public async Task<User?> GetUserByIdAsync(string id)
         {
-            return await _userManager.Users
-                .Include(u => u.Address1)
+            return await _userManager
+                .Users.Include(u => u.ShippingAddress)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User?> GetUserByEmailAsync(string email)
         {
-            return await _userManager.Users
-                .Include(u => u.Address1)
+            return await _userManager
+                .Users.Include(u => u.ShippingAddress)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
@@ -40,10 +35,11 @@ namespace TallerIDWM.src.Repositories
         {
             await _userManager.UpdateAsync(user);
         }
+
         public async Task<User?> GetByEmailAsync(string email)
         {
-            return await _userManager.Users
-                .Include(u => u.Address1)
+            return await _userManager
+                .Users.Include(u => u.ShippingAddress)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
@@ -56,8 +52,9 @@ namespace TallerIDWM.src.Repositories
                 return result == PasswordVerificationResult.Success;
             });
         }
-        public async Task<IdentityResult> UpdatePasswordAsync(User user, string newPassword)
-        => await _userManager.ChangePasswordAsync(user, user.PasswordHash!, newPassword);
+
+        public async Task<IdentityResult> UpdatePasswordAsync(User user, string newPassword) =>
+            await _userManager.ChangePasswordAsync(user, user.PasswordHash!, newPassword);
 
         public Task<User?> GetUserWithAddressByIdAsync(string userId)
         {

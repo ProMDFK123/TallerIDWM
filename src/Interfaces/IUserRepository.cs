@@ -1,9 +1,7 @@
-
-using api.src.Models;
-
 using Microsoft.AspNetCore.Identity;
+using TallerIDWM.Src.Models;
 
-namespace api.src.Interfaces
+namespace TallerIDWM.Src.Interfaces
 {
     public interface IUserRepository
     {

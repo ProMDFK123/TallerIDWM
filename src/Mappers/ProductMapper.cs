@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TallerIDWM.Src.DTOs.Product;
+using TallerIDWM.Src.Models;
 
-using api.src.Dtos;
-using api.src.Models;
-
-namespace api.src.Mappers
+namespace TallerIDWM.Src.Mappers
 {
     public static class ProductMapper
     {
@@ -20,7 +15,7 @@ namespace api.src.Mappers
                 Stock = dto.Stock,
                 Brand = dto.Brand,
                 Category = dto.Category,
-                Urls = urls.ToArray(),
+                Urls = [.. urls],
             };
         }
     }

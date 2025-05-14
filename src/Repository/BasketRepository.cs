@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using api.src.Data;
-using api.src.Interfaces;
-using api.src.Models;
-
 using Microsoft.EntityFrameworkCore;
+using TallerIDWM.Src.Data;
+using TallerIDWM.Src.Interfaces;
+using TallerIDWM.Src.Models;
 
-namespace TallerIDWM.src.Repositories
+namespace TallerIDWM.Src.Repositories
 {
     public class BasketRepository(DataContext context) : IBasketRepository
     {
@@ -17,8 +11,8 @@ namespace TallerIDWM.src.Repositories
 
         public async Task<Basket?> GetBasketAsync(string basketId)
         {
-            return await _context.Baskets
-                .Include(x => x.Items)
+            return await _context
+                .Baskets.Include(x => x.Items)
                 .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(x => x.BasketId == basketId);
         }
@@ -39,8 +33,5 @@ namespace TallerIDWM.src.Repositories
         {
             _context.Baskets.Remove(basket);
         }
-
-
-
     }
 }

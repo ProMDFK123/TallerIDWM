@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace api.src.Dtos
+namespace TallerIDWM.Src.DTOs.ShippingAddress
 {
-    public class CreateAddres1Dto
+    public class CreateShippingAddressDto
     {
         public required string Street { get; set; }
         public required string Number { get; set; }
