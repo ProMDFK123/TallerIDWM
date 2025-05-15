@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace TallerIDWM.Src.DTOs.User
 {

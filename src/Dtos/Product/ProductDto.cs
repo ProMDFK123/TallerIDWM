@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace TallerIDWM.Src.DTOs.Product
 {
     public class ProductDto
