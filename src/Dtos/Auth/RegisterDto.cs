@@ -33,7 +33,7 @@ namespace TallerIDWM.Src.DTOs.Auth
             ErrorMessage = "La contraseña debe tener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial."
         )]
         public required string ConfirmPassword { get; set; }
-        
+
         public required string? Street { get; set; }
         public required string? Number { get; set; }
         public required string? Commune { get; set; }
