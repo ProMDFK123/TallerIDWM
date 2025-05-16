@@ -50,16 +50,7 @@ namespace TallerIDWM.Src.Mappers
                 FirtsName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email ?? string.Empty,
-                Thelephone = user.PhoneNumber ?? string.Empty,
-                Token = token,
-                Street = user.ShippingAddress?.Street,
-                Number = user.ShippingAddress?.Number,
-                Commune = user.ShippingAddress?.Commune,
-                Region = user.ShippingAddress?.Region,
-                PostalCode = user.ShippingAddress?.PostalCode,
-                RegisteredAt = user.RegisteredAt,
-                LastAccess = user.LastAccess,
-                IsActive = user.IsActive,
+                Token = token
             };
 
         public static void UpdateUserFromDto(User user, UpdateProfileDto dto)
