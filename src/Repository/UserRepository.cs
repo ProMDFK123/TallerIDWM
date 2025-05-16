@@ -53,9 +53,10 @@ namespace TallerIDWM.Src.Repositories
             });
         }
 
-        public async Task<IdentityResult> UpdatePasswordAsync(User user, string newPassword) =>
-            await _userManager.ChangePasswordAsync(user, user.PasswordHash!, newPassword);
-
+        public async Task<IdentityResult> UpdatePasswordAsync(User user,string currentPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        }
         public Task<User?> GetUserWithAddressByIdAsync(string userId)
         {
             throw new NotImplementedException();

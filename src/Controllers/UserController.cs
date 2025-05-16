@@ -159,7 +159,7 @@ namespace TallerIDWM.Src.Controllers
         }
 
         [Authorize(Roles = "User")]
-        [HttpPut("profile/password")]
+        [HttpPatch("profile/password")]
         public async Task<ActionResult<ApiResponse<string>>> ChangePassword(
             [FromBody] ChangePasswordDto dto
         )
@@ -182,6 +182,7 @@ namespace TallerIDWM.Src.Controllers
 
             var result = await _unitOfWork.UserRepository.UpdatePasswordAsync(
                 user,
+                dto.CurrentPassword,
                 dto.NewPassword
             );
             if (!result.Succeeded)
