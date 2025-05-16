@@ -16,7 +16,7 @@ namespace TallerIDWM.Src.Services
         {
             _config = config;
             var SignInKey =
-                _config["JWT:SiningKey"] ?? throw new ArgumentNullException("Key not found");
+                _config["JWT:SigningKey"] ?? throw new ArgumentNullException("Key not found");
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SignInKey));
         }
 
@@ -24,9 +24,10 @@ namespace TallerIDWM.Src.Services
         {
             var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Email, user.Email!),
-                new(JwtRegisteredClaimNames.GivenName, user.FirstName),
-                new(ClaimTypes.Role, role),
+               new Claim(ClaimTypes.NameIdentifier, user.Id),
+               new(JwtRegisteredClaimNames.Email, user.Email!),
+               new(JwtRegisteredClaimNames.GivenName, user.FirstName),
+               new(ClaimTypes.Role, role),
             };
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
