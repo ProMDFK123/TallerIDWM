@@ -1,3 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using TallerIDWM.Src.DTOs;
 using TallerIDWM.Src.DTOs.ShippingAddress;
 using TallerIDWM.Src.Models;
 
@@ -14,7 +20,19 @@ namespace TallerIDWM.Src.Mappers
                 Commune = dto.Commune,
                 Region = dto.Region,
                 PostalCode = dto.PostalCode,
-                UserId = userId,
+                UserId = userId
+            };
+        }
+
+        public static ShippingAddress ToDto(ShippingAddress shippingAddress)
+        {
+            return new ShippingAddress
+            {
+                Street = shippingAddress.Street,
+                Number = shippingAddress.Number,
+                Commune = shippingAddress.Commune,
+                Region = shippingAddress.Region,
+                PostalCode = shippingAddress.PostalCode
             };
         }
     }
