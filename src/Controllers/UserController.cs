@@ -80,7 +80,7 @@ namespace TallerIDWM.Src.Controllers
 
         [Authorize(Roles = "Admin")]
         // PUT /users/{id}/status
-        [HttpPut("{email}/status")]
+        [HttpPatch("{email}/status")]
         public async Task<ActionResult<ApiResponse<string>>> ToggleStatus(
             string email,
             [FromBody] ToggleStatusDto dto
@@ -92,6 +92,15 @@ namespace TallerIDWM.Src.Controllers
 
             user.IsActive = !user.IsActive;
             user.DeactivationReason = user.IsActive ? null : dto.Reason;
+
+            var roles = await _unitOfWork.UserRepository.GetUserRolesAsync(user);
+            if (roles.Contains("Admin"))
+                return BadRequest(
+                    new ApiResponse<string>(
+                        false,
+                        "No puedes deshabilitar a un usuario con rol de administrador"
+                    )
+                );
 
             await _unitOfWork.UserRepository.UpdateUserAsync(user);
             await _unitOfWork.SaveChangeAsync();
@@ -113,10 +122,19 @@ namespace TallerIDWM.Src.Controllers
                 return Unauthorized(new ApiResponse<string>(false, "Usuario no autenticado"));
 
             var existing = await _unitOfWork.ShippingAddressRepository.GetByUserIdAsync(userId);
-            if (existing != null)
-                return BadRequest(
-                    new ApiResponse<string>(false, "Ya tienes una dirección registrada")
-                );
+            var hasAddress = existing != null && !string.IsNullOrEmpty(existing.Id)
+                && !string.IsNullOrEmpty(existing.Street)
+                && !string.IsNullOrEmpty(existing.Number)
+                && !string.IsNullOrEmpty(existing.Commune)
+                && !string.IsNullOrEmpty(existing.Region)
+                && !string.IsNullOrEmpty(existing.PostalCode);
+
+            if (hasAddress) return BadRequest(
+                new ApiResponse<string>(
+                    false,
+                    "Ya tienes una dirección registrada."
+                )
+            );
 
             var address = ShippingAddressMapper.FromDto(dto, userId);
 
