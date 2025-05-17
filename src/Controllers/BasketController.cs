@@ -19,6 +19,8 @@ namespace TallerIDWM.Src.Controllers
     {
         private readonly ILogger<ProductController> _logger = logger;
         private readonly UnitOfWork _unitOfWork = unitOfWork;
+
+        [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<ActionResult<ApiResponse<BasketDto>>> GetBasket()
         {
