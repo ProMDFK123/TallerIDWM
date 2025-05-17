@@ -13,6 +13,6 @@ namespace TallerIDWM.Src.Interfaces
         Task<bool> CheckPasswordAsync(User user, string password);
         Task<IdentityResult> UpdatePasswordAsync(User user, string currentPassword, string newPassword);
         Task<User?> GetUserWithAddressByIdAsync(string userId);
-        Task<IList<string>> GetUserRolesAsync(User user)
+        Task<IList<string>> GetUserRolesAsync(User user);
     }
 }
