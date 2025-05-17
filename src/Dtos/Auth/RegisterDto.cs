@@ -34,10 +34,10 @@ namespace TallerIDWM.Src.DTOs.Auth
         )]
         public required string ConfirmPassword { get; set; }
 
-        public  string? Street { get; set; }
-        public  string? Number { get; set; }
-        public  string? Commune { get; set; }
-        public  string? Region { get; set; }
-        public  string? PostalCode { get; set; }
+        public string? Street { get; set; }
+        public string? Number { get; set; }
+        public string? Commune { get; set; }
+        public string? Region { get; set; }
+        public string? PostalCode { get; set; }
     }
 }

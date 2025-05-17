@@ -122,7 +122,7 @@ namespace TallerIDWM.Src.Controllers
                 return Unauthorized(new ApiResponse<string>(false, "Usuario no autenticado"));
 
             var existing = await _unitOfWork.ShippingAddressRepository.GetByUserIdAsync(userId);
-            var hasAddress = existing != null && !string.IsNullOrEmpty(existing.Id)
+            var hasAddress = existing != null
                 && !string.IsNullOrEmpty(existing.Street)
                 && !string.IsNullOrEmpty(existing.Number)
                 && !string.IsNullOrEmpty(existing.Commune)
