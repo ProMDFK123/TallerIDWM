@@ -1,6 +1,12 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TallerIDWM.Src.DTOs.Product
+using TallerIDWM.Src.Models;
+
+namespace TallerIDWM.Src.DTOs
 {
     public class ProductDto
     {
@@ -25,10 +31,11 @@ namespace TallerIDWM.Src.DTOs.Product
         public string Brand { get; set; } = string.Empty;
 
         [Required]
-        [Range(0, 1000000, ErrorMessage = "El stock debe ser 0 o más.")]
+        [Range(0, 100000, ErrorMessage = "El stock debe ser 0 o más.")]
         public int Stock { get; set; }
 
         [Required]
+
         public List<IFormFile> Images { get; set; } = [];
     }
 }

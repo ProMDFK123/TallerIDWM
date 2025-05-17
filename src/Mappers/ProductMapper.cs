@@ -1,11 +1,16 @@
-using TallerIDWM.Src.DTOs.Product;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using TallerIDWM.Src.DTOs;
 using TallerIDWM.Src.Models;
 
 namespace TallerIDWM.Src.Mappers
 {
     public static class ProductMapper
     {
-        public static Product FromCreateDto(ProductDto dto, List<string> urls)
+        public static Product FromCreateDto(ProductDto dto, List<string> urls, string? publicId = null)
         {
             return new Product
             {
@@ -15,7 +20,8 @@ namespace TallerIDWM.Src.Mappers
                 Stock = dto.Stock,
                 Brand = dto.Brand,
                 Category = dto.Category,
-                Urls = [.. urls],
+                Urls = urls,
+                PublicId = publicId
             };
         }
     }
