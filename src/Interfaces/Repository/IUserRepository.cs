@@ -11,7 +11,8 @@ namespace TallerIDWM.Src.Interfaces
         Task UpdateUserAsync(User user); // Save status change or profile update
         Task<User?> GetByEmailAsync(string email);
         Task<bool> CheckPasswordAsync(User user, string password);
-        Task<IdentityResult> UpdatePasswordAsync(User user,string currentPassword, string newPassword);
+        Task<IdentityResult> UpdatePasswordAsync(User user, string currentPassword, string newPassword);
         Task<User?> GetUserWithAddressByIdAsync(string userId);
+        Task<IList<string>> GetUserRolesAsync(User user);
     }
 }

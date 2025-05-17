@@ -21,9 +21,9 @@ namespace TallerIDWM.Src.Data.Seeders
                     (f, p) =>
 
                         [
-                            $"https://res.cloudinary.com/demo/image/upload/sample1.jpg",
-                            $"https://res.cloudinary.com/demo/image/upload/sample2.jpg",
-                            $"https://res.cloudinary.com/demo/image/upload/sample3.jpg",
+                            $"https://res.cloudinary.com/dyi1vwgbg/image/upload/v1747509928/teclado_gamer_semi_mecanico_anti_ghosting_suporte_para_celular_revestimento_em_metal_clanm_cl_tm8153_4997_2_0f8b4437b36be18c510fed281b159d80_zhll5m.png",
+                            $"https://res.cloudinary.com/dyi1vwgbg/image/upload/v1747509928/156187-800-800_mnlhhn.png",
+                            $"https://res.cloudinary.com/dyi1vwgbg/image/upload/v1747509860/marcasfiddlerfd-kd609-negro3jpeg_2_slwxlv.jpg",
                         ]
                 )
                 .Generate(count);

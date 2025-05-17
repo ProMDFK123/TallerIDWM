@@ -53,7 +53,7 @@ namespace TallerIDWM.Src.Repositories
             });
         }
 
-        public async Task<IdentityResult> UpdatePasswordAsync(User user,string currentPassword, string newPassword)
+        public async Task<IdentityResult> UpdatePasswordAsync(User user, string currentPassword, string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
         }
@@ -71,6 +71,11 @@ namespace TallerIDWM.Src.Repositories
         {
             // Aquí va la lógica para obtener un usuario por su ID de tu base de datos
             return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<IList<string>> GetUserRolesAsync(User user)
+        {
+            return await _userManager.GetRolesAsync(user);
         }
     }
 }
