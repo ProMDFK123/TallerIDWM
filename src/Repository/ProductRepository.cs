@@ -1,57 +1,54 @@
+
 using TallerIDWM.Src.Data;
 using TallerIDWM.Src.Interfaces;
 using TallerIDWM.Src.Models;
+
 using Microsoft.EntityFrameworkCore;
 
-namespace TallerIDWM.Src.Repository
+namespace TallerIDWM.Src.Repository;
+
+public class ProductRepository(DataContext store, ILogger<Product> logger) : IProductRepository
 {
-    public class ProductRepository : IProductRepository
+    private readonly DataContext _context = store;
+    private readonly ILogger<Product> _logger = logger;
+
+    public async Task AddProductAsync(Product product)
     {
-        private readonly DataContext _context;
-
-        public ProductRepository(DataContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<Product?> GetProductById(int id)
-        {
-            return await _context.Products.FindAsync(id);
-        }
-
-        public async Task<IEnumerable<Product>> GetProducts()
-        {
-            return await _context.Products.ToListAsync();
-        }
-
-        public async Task<Product> AddProduct(Product product)
-        {
-            await _context.Products.AddAsync(product);
-            await _context.SaveChangesAsync();
-            return product;
-        }
-
-        public async Task<Product> UpdateProduct(Product product)
-        {
-            _context.Products.Update(product);
-            await _context.SaveChangesAsync();
-            return product;
-        }
-
-        public async Task DeleteProduct(int id)
-        {
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
-            {
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<Product> GetProductByIdAsync(int id)
-        {
-            return await _context.Products.FindAsync(id)
-                ?? throw new Exception("Product not found");
-        }
+        await _context.Products.AddAsync(product);
     }
+
+    public Task DeleteProductAsync(Product product)
+    {
+        _context.Products.Remove(product);
+        return Task.CompletedTask;
+    }
+
+
+    public async Task<Product> GetProductByIdAsync(int id)
+    {
+        return await _context.Products.FindAsync(id) ?? null;
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsAsync()
+    {
+        return await _context.Products.ToListAsync();
+    }
+
+    public IQueryable<Product> GetQueryableProducts()
+    {
+        return _context.Products.AsQueryable();
+    }
+
+    public Task UpdateProductAsync(Product product)
+    {
+        _context.Products.Update(product);
+        return Task.CompletedTask;
+    }
+
+    public async Task<bool> IsProductInOrdersAsync(int productId)
+    {
+        return await _context.OrderItems.AnyAsync(i => i.ProductId == productId);
+    }
+
+
 }

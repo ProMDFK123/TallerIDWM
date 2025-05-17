@@ -1,14 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 using TallerIDWM.Src.Models;
 
-namespace TallerIDWM.Src.Interfaces
+namespace TallerIDWM.Src.Interfaces;
+
+public interface IProductRepository
 {
-    public interface IProductRepository
-    {
-        Task<Product?> GetProductById(int id);
-        Task<IEnumerable<Product>> GetProducts();
-        Task<Product> AddProduct(Product product);
-        Task<Product> UpdateProduct(Product product);
-        Task DeleteProduct(int id);
-        Task<Product> GetProductByIdAsync(int id);
-    }
+    Task<Product> GetProductByIdAsync(int id);
+    Task<IEnumerable<Product>> GetProductsAsync();
+    Task AddProductAsync(Product product);
+    Task DeleteProductAsync(Product product);
+    Task UpdateProductAsync(Product product);
+    Task<bool> IsProductInOrdersAsync(int productId);
+
+    IQueryable<Product> GetQueryableProducts();
+
 }

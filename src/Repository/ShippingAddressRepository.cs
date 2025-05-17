@@ -11,18 +11,18 @@ namespace TallerIDWM.Src.Repositories
 
         public async Task<ShippingAddress?> GetByUserIdAsync(string userId)
         {
-            return await _context.ShippingAddresses.FirstOrDefaultAsync(a => a.UserId == userId);
+            return await _context.ShippingAddress.FirstOrDefaultAsync(a => a.UserId == userId);
         }
 
         public async Task AddAsync(ShippingAddress address)
         {
-            await _context.ShippingAddresses.AddAsync(address);
+            await _context.ShippingAddress.AddAsync(address);
         }
 
         public async Task<ShippingAddress?> GetDefaultAddressAsync(string userId)
         {
             return await _context
-                .ShippingAddresses.Where(a => a.UserId == userId)
+                .ShippingAddress.Where(a => a.UserId == userId)
                 .FirstOrDefaultAsync(a => a.UserId == userId);
         }
     }

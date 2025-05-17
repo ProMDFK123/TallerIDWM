@@ -8,10 +8,10 @@ using TallerIDWM.Src.Data;
 
 #nullable disable
 
-namespace TallerIDWM.Src.Data.Migrations
+namespace TallerIDWM.src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250513052555_InitialCreate")]
+    [Migration("20250517010513_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -162,7 +162,7 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("api.src.Models.Basket", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.Basket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -177,7 +177,7 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.ToTable("Baskets");
                 });
 
-            modelBuilder.Entity("api.src.Models.BasketItem", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.BasketItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -201,7 +201,7 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.ToTable("BasketItems");
                 });
 
-            modelBuilder.Entity("api.src.Models.Order", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -233,7 +233,7 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("api.src.Models.OrderItem", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -263,10 +263,10 @@ namespace TallerIDWM.Src.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("api.src.Models.Product", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -280,15 +280,24 @@ namespace TallerIDWM.Src.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Condition")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Stock")
@@ -302,7 +311,7 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("api.src.Models.ShippingAddress", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.ShippingAddress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -337,10 +346,10 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("ShippingAddresses");
+                    b.ToTable("ShippingAddress");
                 });
 
-            modelBuilder.Entity("api.src.Models.User", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -439,7 +448,7 @@ namespace TallerIDWM.Src.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("api.src.Models.User", null)
+                    b.HasOne("TallerIDWM.Src.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -448,7 +457,7 @@ namespace TallerIDWM.Src.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("api.src.Models.User", null)
+                    b.HasOne("TallerIDWM.Src.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -463,7 +472,7 @@ namespace TallerIDWM.Src.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.src.Models.User", null)
+                    b.HasOne("TallerIDWM.Src.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -472,22 +481,22 @@ namespace TallerIDWM.Src.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("api.src.Models.User", null)
+                    b.HasOne("TallerIDWM.Src.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("api.src.Models.BasketItem", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.BasketItem", b =>
                 {
-                    b.HasOne("api.src.Models.Basket", "Basket")
+                    b.HasOne("TallerIDWM.Src.Models.Basket", "Basket")
                         .WithMany("Items")
                         .HasForeignKey("BasketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.src.Models.Product", "Product")
+                    b.HasOne("TallerIDWM.Src.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -498,15 +507,15 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("api.src.Models.Order", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.Order", b =>
                 {
-                    b.HasOne("api.src.Models.ShippingAddress", "ShippingAddress")
+                    b.HasOne("TallerIDWM.Src.Models.ShippingAddress", "ShippingAddress")
                         .WithMany()
                         .HasForeignKey("ShippingAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.src.Models.User", "User")
+                    b.HasOne("TallerIDWM.Src.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -517,9 +526,9 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.src.Models.OrderItem", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.OrderItem", b =>
                 {
-                    b.HasOne("api.src.Models.Order", "Order")
+                    b.HasOne("TallerIDWM.Src.Models.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -528,28 +537,28 @@ namespace TallerIDWM.Src.Data.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("api.src.Models.ShippingAddress", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.ShippingAddress", b =>
                 {
-                    b.HasOne("api.src.Models.User", "User")
+                    b.HasOne("TallerIDWM.Src.Models.User", "User")
                         .WithOne("ShippingAddress")
-                        .HasForeignKey("api.src.Models.ShippingAddress", "UserId")
+                        .HasForeignKey("TallerIDWM.Src.Models.ShippingAddress", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.src.Models.Basket", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.Basket", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("api.src.Models.Order", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.Order", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("api.src.Models.User", b =>
+            modelBuilder.Entity("TallerIDWM.Src.Models.User", b =>
                 {
                     b.Navigation("ShippingAddress");
                 });
