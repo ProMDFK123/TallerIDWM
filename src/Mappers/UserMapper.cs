@@ -44,13 +44,12 @@ namespace TallerIDWM.Src.Mappers
                 IsActive = user.IsActive,
             };
 
-        public static AuthenticatedUserDto UserToAuthenticatedDto(User user, string token) =>
+        public static AuthenticatedUserDto UserToAuthenticatedDto(User user) =>
             new()
             {
                 FirtsName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email ?? string.Empty,
-                Token = token
             };
 
         public static void UpdateUserFromDto(User user, UpdateProfileDto dto)

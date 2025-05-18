@@ -84,7 +84,8 @@ namespace TallerIDWM.Src.Controllers
                 var roleName = role.FirstOrDefault() ?? "User";
 
                 var token = _tokenService.GenerateToken(user, roleName);
-                var userDto = UserMapper.UserToAuthenticatedDto(user, token);
+                Response.Headers.Append("Authorization", $"Bearer {token}");
+                var userDto = UserMapper.UserToAuthenticatedDto(user);
 
                 return Ok(
                     new ApiResponse<AuthenticatedUserDto>(
@@ -161,7 +162,8 @@ namespace TallerIDWM.Src.Controllers
                 var roleName = roles.FirstOrDefault() ?? "User";
 
                 var token = _tokenService.GenerateToken(user, roleName);
-                var userDto = UserMapper.UserToAuthenticatedDto(user, token);
+                Response.Headers.Append("Authorization", $"Bearer {token}");
+                var userDto = UserMapper.UserToAuthenticatedDto(user);
 
                 return Ok(new ApiResponse<AuthenticatedUserDto>(true, "Login exitoso", userDto));
             }
