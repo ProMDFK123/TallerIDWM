@@ -33,6 +33,7 @@ namespace TallerIDWM.Src.Repositories
 
         public async Task UpdateUserAsync(User user)
         {
+            user.IsActive = !user.IsActive;
             await _userManager.UpdateAsync(user);
         }
 
