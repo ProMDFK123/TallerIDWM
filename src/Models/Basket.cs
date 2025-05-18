@@ -26,6 +26,25 @@ namespace TallerIDWM.Src.Models
             }
         }
 
+        public void UpdateItemQuantity(int productId, int quantity)
+        {
+            if (quantity < 0)
+                throw new ArgumentException("Quantity must be 0 or greater", nameof(quantity));
+
+            var item = FindItem(productId);
+            if (item == null)
+                return;
+
+            if (quantity == 0)
+            {
+                Items.Remove(item); // si es 0, se elimina el producto del carrito
+            }
+            else
+            {
+                item.Quantity = quantity; // si es mayor, se actualiza la cantidad
+            }
+        }
+
         public void RemoveItem(int productId, int quantity)
         {
             if (quantity <= 0)

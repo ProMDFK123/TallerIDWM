@@ -101,7 +101,39 @@ namespace TallerIDWM.Src.Controllers
                 ? null
                 : await _unitOfWork.BasketRepository.GetBasketAsync(basketId);
         }
+        [Authorize(Roles = "User")]
+        [HttpPatch]
+        public async Task<ActionResult<ApiResponse<BasketDto>>> UpdateItemQuantity(int productId, int quantity)
+        {
+            var basket = await RetrieveBasket();
+            if (basket == null)
+                return BadRequest(new ApiResponse<string>(false, "Carrito no encontrado"));
 
+            var product = await _unitOfWork.ProductRepository.GetProductByIdAsync(productId);
+            if (product == null)
+                return BadRequest(new ApiResponse<string>(false, "Producto no encontrado"));
+
+            if (!product.IsActive)
+                return BadRequest(new ApiResponse<string>(false, $"El producto '{product.Name}' está inactivo y no se puede agregar al carrito."));
+
+            if (product.Stock == 0)
+                return BadRequest(new ApiResponse<string>(false, $"El producto '{product.Name}' no tiene stock disponible."));
+
+            if (product.Stock < quantity)
+                return BadRequest(new ApiResponse<string>(false, $"Solo hay {product.Stock} unidades disponibles de '{product.Name}'"));
+
+            basket.UpdateItemQuantity(productId, quantity);
+
+            var success = await _unitOfWork.SaveChangeAsync() > 0;
+
+            return success
+                ? Ok(new ApiResponse<BasketDto>(
+                    true,
+                    "Cantidad actualizada correctamente",
+                    basket.ToDto()
+                ))
+                : BadRequest(new ApiResponse<string>(false, "Error al actualizar el carrito"));
+        }
         private Basket CreateBasket()
         {
             var basketId = Guid.NewGuid().ToString();
