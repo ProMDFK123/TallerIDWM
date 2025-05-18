@@ -1,16 +1,16 @@
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
-namespace api.src.Models
+namespace TallerIDWM.Src.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public required int Id { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
-        public required string Email { get; set; }
-        public required string Password { get; set; }
-        public required string Thelephone { get; set; }
-        public required string birthdate { get; set; }
-        public required string? Address1 { get; set; }
+        public required string Telephone { get; set; }
+        public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
+        public DateTime? LastAccess { get; set; }
+        public bool IsActive { get; set; } = true;
+        public string? DeactivationReason { get; set; }
+        public ShippingAddress? ShippingAddress { get; set; }
     }
 }

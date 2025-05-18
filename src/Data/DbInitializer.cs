@@ -1,47 +1,43 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.src.Data;
-using api.src.Models;
-
-using Bogus;
-
+using TallerIDWM.Src.Data.Seeders;
+using TallerIDWM.Src.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.src.Data
+namespace TallerIDWM.Src.Data;
+
+public class DbInitializer
 {
-    public class DbInitializer
+    public static async Task InitDbAsync(WebApplication app)
     {
-        public static void InitDb(WebApplication app)
+        using var scope = app.Services.CreateScope();
+
+        var userManager =
+            scope.ServiceProvider.GetRequiredService<UserManager<User>>()
+            ?? throw new InvalidOperationException("Could not get UserManager");
+
+        var context =
+            scope.ServiceProvider.GetRequiredService<DataContext>()
+            ?? throw new InvalidOperationException("Could not get StoreContext");
+
+        await SeedData(context, userManager);
+    }
+
+    private static async Task SeedData(DataContext context, UserManager<User> userManager)
+    {
+        await context.Database.MigrateAsync();
+
+        if (!context.Products.Any())
         {
-            using var scope = app.Services.CreateScope();
-
-            var context = scope.ServiceProvider.GetRequiredService<DataContext>()
-                ?? throw new InvalidOperationException("Could not get DataContext");
-
-            SeedData(context);
+            var products = ProductSeeder.GenerateProducts(10);
+            context.Products.AddRange(products);
         }
 
-        private static void SeedData(DataContext context)
+        if (!context.Users.Any())
         {
-            context.Database.Migrate();
-
-            if (context.Products.Any() || context.Users.Any() || context.Address1s.Any()) return;
-
-            var faker = new Faker("es");
-            var productFaker = new Faker<Product>("es")
-                .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
-                .RuleFor(p => p.Price, f => decimal.Parse(f.Commerce.Price()))
-                .RuleFor(p => p.Category, f => f.Commerce.Categories(1)[0])
-                .RuleFor(p => p.Urls, f => new[] { f.Image.PicsumUrl() })
-                .RuleFor(p => p.Stock, f => f.Random.Int(1, 100))
-                .RuleFor(p => p.Brand, f => f.Company.CompanyName())
-
-            .Generate(10); 
-            context.Set<Product>().AddRange(productFaker);
-            context.SaveChanges();
+            var users = UserSeeder.GenerateUsersDto(10);
+            await UserSeeder.CreateUsers(userManager, users);
         }
+
+        await context.SaveChangesAsync();
     }
 }
