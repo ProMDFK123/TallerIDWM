@@ -95,6 +95,45 @@ public class ProductController(ILogger<ProductController> logger, UnitOfWork uni
         );
     }
     [Authorize(Roles = "Admin")]
+    [HttpPost("{id}/add-image")]
+    public async Task<ActionResult<ApiResponse<Product>>> AddImage(int id, [FromForm] IFormFile image)
+    {
+        var product = await _context.ProductRepository.GetProductByIdAsync(id);
+        if (product == null)
+            return NotFound(new ApiResponse<Product>(false, "Producto no encontrado"));
+
+        if (image == null)
+            return BadRequest(new ApiResponse<Product>(false, "No se envió ninguna imagen"));
+
+        // Subir la nueva imagen
+        var result = await _photoService.AddPhotoAsync(image);
+        if (result.Error != null)
+        {
+            return BadRequest(new ApiResponse<Product>(
+                false,
+                "Error al agregar la imagen",
+                null,
+                new List<string> { result.Error.Message }
+            ));
+        }
+
+        // Agregar la nueva URL y PublicId a las listas existentes
+        if (product.Urls == null)
+            product.Urls = new List<string>();
+
+        product.Urls.Add(result.SecureUrl.AbsoluteUri);
+
+        // Opcional: si guardas solo un PublicId principal, puedes decidir qué hacer.
+        // Aquí asumo que tienes una lista, si no, puedes ignorar o actualizar según convenga.
+        product.PublicId = result.PublicId;
+
+        await _context.ProductRepository.UpdateProductAsync(product);
+        await _context.SaveChangeAsync();
+
+        return Ok(new ApiResponse<Product>(true, "Imagen agregada correctamente", product));
+    }
+
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult<ApiResponse<Product>>> Update(int id, [FromForm] ProductDto dto)
     {
