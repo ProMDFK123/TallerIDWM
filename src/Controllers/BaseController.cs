@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TallerIDWM.Src.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("/api/[controller]")]
 public class BaseController : ControllerBase
 {
     protected ActionResult<T> HandleResult<T>(T result)
