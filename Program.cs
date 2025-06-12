@@ -18,6 +18,18 @@ try
     Log.Information("starting server.");
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(
+            policy =>
+            {
+                policy.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            }
+        );
+    });
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
@@ -63,7 +75,7 @@ try
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
-    builder.Host.UseSerilog(
+    /*builder.Host.UseSerilog(
         (context, services, configuration) =>
         {
             configuration
@@ -72,10 +84,10 @@ try
                 .Enrich.WithThreadId()
                 .Enrich.WithMachineName();
         }
-    );
+    );*/
 
     var app = builder.Build();
-    await DbInitializer.InitDbAsync(app);
+    app.UseCors();
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
